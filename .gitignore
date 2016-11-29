@@ -1,6 +1,6 @@
 # Silence: eclipse add remote project
-.project
-.pydevproject
+*.project
+*.pydevproject
 *~
 
 # Byte-compiled / optimized / DLL files
@@ -97,7 +97,7 @@ MUJOCO_LOG.TXT
 *.csv
 
 # Experiment files
-experiments/**/data_files/
-experiments/**/log.txt
-experiments/**/*.png
+rl_impl/experiments/**/data_files/
+rl_impl/experiments/**/log.txt
+rl_impl/experiments/**/*.png
 .previous_experiment
