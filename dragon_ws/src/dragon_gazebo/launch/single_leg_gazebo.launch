@@ -12,6 +12,9 @@
   <!-- Load robot description -->
   <include file="$(find dragon_description)/launch/upload_single_leg.launch" />
 
+  <!-- Joint state publisher -->
+  <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher" />
+
   <!-- Robot state publisher -->
   <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" />
 

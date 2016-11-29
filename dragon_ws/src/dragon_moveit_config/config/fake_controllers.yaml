@@ -1,5 +1,5 @@
 controller_list:
-  - name: fake_leg_group_controller
+  - name: fake_joint_group_controller
     joints:
       - hip
       - knee
