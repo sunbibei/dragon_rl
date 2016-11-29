@@ -18,6 +18,7 @@ cmake_install.cmake
 
 #ROS
 build/
+devel/
 bin/
 lib/
 msg_gen/
