@@ -1,0 +1,7 @@
+controller_list:
+  - name: single_leg_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    joints:
+      - hip
+      - knee

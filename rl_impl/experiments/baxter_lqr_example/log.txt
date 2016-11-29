@@ -1,0 +1,857 @@
+target number = 0
+actuator name = trial_arm
+
+initial position
+joint angles =
+[[  0.405  -0.267   0.986  -0.587 -30.29   -0.595  19.503]]
+end effector positions =
+[[ 0.898  0.217  0.29 ]]
+end effector rotations =
+[[[ 0.834 -0.548  0.07 ]
+  [-0.545 -0.837 -0.06 ]
+  [ 0.091  0.012 -0.996]]]
+
+target position
+joint angles =
+[[  0.21    0.407   1.165  -1.068 -29.325  -0.619  20.591]]
+end effector positions =
+[[ 0.831 -0.06  -0.219]]
+end effector rotations =
+[[[ 0.64  -0.247  0.728]
+  [-0.607  0.418  0.676]
+  [-0.471 -0.874  0.118]]]
+
+initial image (left) =
+None
+
+target image (right) =
+None
+
+target number = 0
+actuator name = trial_arm
+
+initial position
+joint angles =
+[[  0.405  -0.267   0.986  -0.587 -30.29   -0.595  19.503]]
+end effector positions =
+[[ 0.898  0.217  0.29 ]]
+end effector rotations =
+[[[ 0.834 -0.548  0.07 ]
+  [-0.545 -0.837 -0.06 ]
+  [ 0.091  0.012 -0.996]]]
+
+target position
+joint angles =
+[[  0.21    0.407   1.165  -1.068 -29.325  -0.619  20.591]]
+end effector positions =
+[[ 0.831 -0.06  -0.219]]
+end effector rotations =
+[[[ 0.64  -0.247  0.728]
+  [-0.607  0.418  0.676]
+  [-0.471 -0.874  0.118]]]
+
+initial image (left) =
+None
+
+target image (right) =
+None
+
+target number = 0
+actuator name = trial_arm
+
+initial position
+joint angles =
+[[  0.405  -0.267   0.986  -0.587 -30.29   -0.595  19.503]]
+end effector positions =
+[[ 0.898  0.217  0.29 ]]
+end effector rotations =
+[[[ 0.834 -0.548  0.07 ]
+  [-0.545 -0.837 -0.06 ]
+  [ 0.091  0.012 -0.996]]]
+
+target position
+joint angles =
+[[  0.21    0.407   1.165  -1.068 -29.325  -0.619  20.591]]
+end effector positions =
+[[ 0.831 -0.06  -0.219]]
+end effector rotations =
+[[[ 0.64  -0.247  0.728]
+  [-0.607  0.418  0.676]
+  [-0.471 -0.874  0.118]]]
+
+initial image (left) =
+None
+
+target image (right) =
+None
+
+target number = 0
+actuator name = trial_arm
+
+initial position
+joint angles =
+[[  0.405  -0.267   0.986  -0.587 -30.29   -0.595  19.503]]
+end effector positions =
+[[ 0.898  0.217  0.29 ]]
+end effector rotations =
+[[[ 0.834 -0.548  0.07 ]
+  [-0.545 -0.837 -0.06 ]
+  [ 0.091  0.012 -0.996]]]
+
+target position
+joint angles =
+[[ 0.209  0.407  1.164 -0.05  -3.059 -0.619  3.059]]
+end effector positions =
+[[ 0.425  1.121 -0.032]]
+end effector rotations =
+[[[-0.988 -0.147 -0.044]
+  [-0.11   0.478  0.872]
+  [-0.107  0.866 -0.488]]]
+
+initial image (left) =
+None
+
+target image (right) =
+None
+
+target number = 0
+actuator name = trial_arm
+
+initial position
+joint angles =
+[[ 0.405 -0.267  0.986 -0.05  -3.059 -0.595  3.06 ]]
+end effector positions =
+[[ 0.302  1.255  0.569]]
+end effector rotations =
+[[[-0.793 -0.602 -0.093]
+  [-0.082 -0.046  0.996]
+  [-0.603  0.797 -0.013]]]
+
+target position
+joint angles =
+[[ 0.209  0.407  1.164 -0.05  -3.059 -0.619  3.059]]
+end effector positions =
+[[ 0.425  1.121 -0.032]]
+end effector rotations =
+[[[-0.988 -0.147 -0.044]
+  [-0.11   0.478  0.872]
+  [-0.107  0.866 -0.488]]]
+
+initial image (left) =
+None
+
+target image (right) =
+None
+
+target number = 1
+actuator name = trial_arm
+
+initial position
+joint angles =
+[[  0.405  -0.267   0.986  -0.587 -30.29   -0.595  19.503]]
+end effector positions =
+[[ 0.898  0.217  0.29 ]]
+end effector rotations =
+[[[ 0.834 -0.548  0.07 ]
+  [-0.545 -0.837 -0.06 ]
+  [ 0.091  0.012 -0.996]]]
+
+target position
+joint angles =
+[[  0.21    0.407   1.165  -1.068 -29.325  -0.619  20.591]]
+end effector positions =
+[[ 0.831 -0.06  -0.219]]
+end effector rotations =
+[[[ 0.64  -0.247  0.728]
+  [-0.607  0.418  0.676]
+  [-0.471 -0.874  0.118]]]
+
+initial image (left) =
+None
+
+target image (right) =
+None
+
+target number = 1
+actuator name = trial_arm
+
+initial position
+joint angles =
+[[ 0.405 -0.267  0.986 -0.05  -3.059 -0.595  3.059]]
+end effector positions =
+[[ 0.302  1.255  0.569]]
+end effector rotations =
+[[[-0.793 -0.602 -0.093]
+  [-0.082 -0.046  0.996]
+  [-0.603  0.797 -0.013]]]
+
+target position
+joint angles =
+[[  0.21    0.407   1.165  -1.068 -29.325  -0.619  20.591]]
+end effector positions =
+[[ 0.831 -0.06  -0.219]]
+end effector rotations =
+[[[ 0.64  -0.247  0.728]
+  [-0.607  0.418  0.676]
+  [-0.471 -0.874  0.118]]]
+
+initial image (left) =
+None
+
+target image (right) =
+None
+
+target number = 1
+actuator name = trial_arm
+
+initial position
+joint angles =
+[[ 0.405 -0.267  0.986 -0.05  -3.059 -0.595  3.059]]
+end effector positions =
+[[ 0.302  1.255  0.569]]
+end effector rotations =
+[[[-0.793 -0.602 -0.093]
+  [-0.082 -0.046  0.996]
+  [-0.603  0.797 -0.013]]]
+
+target position
+joint angles =
+[[ 0.21   0.407  1.164 -0.05  -3.059 -0.619  3.059]]
+end effector positions =
+[[ 0.425  1.121 -0.032]]
+end effector rotations =
+[[[-0.988 -0.147 -0.044]
+  [-0.11   0.478  0.872]
+  [-0.107  0.866 -0.488]]]
+
+initial image (left) =
+None
+
+target image (right) =
+None
+
+
+
+exp_name:   my_experiment_11-08-16_20-36
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+my_experiment_11-08-16_20-36
+    |          |          condition 0      
+itr | avg_cost |   cost     step   entropy 
+  0 |  -578.32 |  -578.32     0.20  -127.51
+
+
+exp_name:   my_experiment_11-08-16_20-43
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+my_experiment_11-08-16_20-43
+    |          |          condition 0      
+itr | avg_cost |   cost     step   entropy 
+  0 |  -578.31 |  -578.31     0.20  -127.51
+  1 |  -584.16 |  -584.16     1.00  -235.68
+  2 |  -584.53 |  -584.53     0.63  -475.02
+  3 |  -590.49 |  -590.49     2.00  -615.47
+  4 |  -591.66 |  -591.66     1.01  -811.17
+  5 |  -598.59 |  -598.59     2.00  -950.89
+  6 |  -601.21 |  -601.21     1.31 -1188.97
+  7 |  -607.27 |  -607.27     2.00 -1316.96
+  8 |  -610.46 |  -610.46     1.55 -1535.38
+  9 |  -613.73 |  -613.73     1.14 -1677.48
+target number = 0
+actuator name = trial_arm
+
+initial position
+joint angles =
+[[ 0.405 -0.267  0.986 -0.05  -3.059 -0.595  3.06 ]]
+end effector positions =
+[[ 0.302  1.255  0.569]]
+end effector rotations =
+[[[-0.793 -0.602 -0.093]
+  [-0.082 -0.046  0.996]
+  [-0.603  0.797 -0.013]]]
+
+target position
+joint angles =
+[[ 0.209  0.407  1.164 -0.05  -3.059 -0.619  3.059]]
+end effector positions =
+[[ 0.425  1.121 -0.032]]
+end effector rotations =
+[[[-0.988 -0.147 -0.044]
+  [-0.11   0.478  0.872]
+  [-0.107  0.866 -0.488]]]
+
+initial image (left) =
+None
+
+target image (right) =
+None
+
+target number = 0
+actuator name = trial_arm
+
+initial position
+joint angles =
+[[ 0.405 -0.266  0.986 -0.05  -3.059 -0.595  3.059]]
+end effector positions =
+[[ 0.302  1.255  0.568]]
+end effector rotations =
+[[[-0.793 -0.602 -0.094]
+  [-0.083 -0.046  0.996]
+  [-0.603  0.797 -0.013]]]
+
+target position
+joint angles =
+[[ 0.209  0.407  1.164 -0.05  -3.059 -0.619  3.059]]
+end effector positions =
+[[ 0.425  1.121 -0.032]]
+end effector rotations =
+[[[-0.988 -0.147 -0.044]
+  [-0.11   0.478  0.872]
+  [-0.107  0.866 -0.488]]]
+
+initial image (left) =
+None
+
+target image (right) =
+None
+
+
+
+exp_name:   my_experiment_11-09-16_08-45
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+my_experiment_11-09-16_08-45
+    |          |          condition 0      
+itr | avg_cost |   cost     step   entropy 
+  0 |  -578.32 |  -578.32     0.20  -127.51
+
+
+exp_name:   my_experiment_11-22-16_21-28
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+my_experiment_11-22-16_21-28
+    |          |          condition 0      
+itr | avg_cost |   cost     step   entropy 
+  0 |  -578.32 |  -578.32     0.20  -127.51
+  1 |  -576.31 |  -576.31     1.00  -128.36
+  2 |  -580.55 |  -580.55     0.10  -135.06
+  3 |  -576.62 |  -576.62     0.50  -135.35
+  4 |  -578.92 |  -578.92     0.33  -325.61
+  5 |  -586.96 |  -586.96     0.74  -431.13
+  6 |  -591.99 |  -591.99     0.87  -633.39
+target number = 0
+actuator name = trial_arm
+
+initial position
+joint angles =
+[[ 0.405 -0.266  0.986 -0.05  -3.059 -0.595  3.059]]
+end effector positions =
+[[ 0.302  1.255  0.568]]
+end effector rotations =
+[[[-0.793 -0.602 -0.094]
+  [-0.083 -0.046  0.996]
+  [-0.603  0.797 -0.013]]]
+
+target position
+joint angles =
+[[ 0.209  0.407  1.164 -0.05  -3.059 -0.619  3.059]]
+end effector positions =
+[[ 0.425  1.121 -0.032]]
+end effector rotations =
+[[[-0.988 -0.147 -0.044]
+  [-0.11   0.478  0.872]
+  [-0.107  0.866 -0.488]]]
+
+initial image (left) =
+None
+
+target image (right) =
+None
+
+
+
+exp_name:   my_experiment_11-23-16_10-30
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+
+
+exp_name:   my_experiment_11-23-16_10-31
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+
+
+exp_name:   my_experiment_11-23-16_10-32
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+
+
+exp_name:   my_experiment_11-23-16_10-44
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+my_experiment_11-23-16_10-44
+    |          |          condition 0      
+itr | avg_cost |   cost     step   entropy 
+  0 |  -578.27 |  -578.27     0.20  -127.51
+  1 |  -576.32 |  -576.32     1.00  -128.48
+  2 |  -580.21 |  -580.21     0.10  -133.53
+  3 |  -576.42 |  -576.42     0.50  -133.87
+  4 |  -579.21 |  -579.21     0.39  -324.23
+  5 |  -587.42 |  -587.42     1.94  -443.85
+  6 |  -592.10 |  -592.10     1.27  -907.54
+  7 |  -597.62 |  -597.62     2.00 -1048.94
+  8 |  -600.63 |  -600.63     2.00 -1543.81
+  9 |  -602.47 |  -602.47     2.00 -1888.17
+
+
+exp_name:   my_experiment_11-23-16_11-20
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+
+
+exp_name:   my_experiment_11-23-16_11-23
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+
+
+exp_name:   my_experiment_11-23-16_11-25
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+
+
+exp_name:   my_experiment_11-23-16_11-26
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+
+
+exp_name:   my_experiment_11-23-16_11-27
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+
+
+exp_name:   my_experiment_11-23-16_11-34
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+
+
+exp_name:   my_experiment_11-23-16_13-37
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+
+
+exp_name:   my_experiment_11-23-16_13-53
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+
+
+exp_name:   my_experiment_11-23-16_13-55
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+
+
+exp_name:   my_experiment_11-23-16_14-01
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+
+
+exp_name:   my_experiment_11-23-16_14-25
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+
+
+exp_name:   my_experiment_11-23-16_14-29
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+
+
+exp_name:   my_experiment_11-23-16_14-30
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+
+
+exp_name:   my_experiment_11-23-16_14-33
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+
+
+exp_name:   my_experiment_11-23-16_14-35
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+
+
+exp_name:   my_experiment_11-23-16_14-58
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+
+
+exp_name:   my_experiment_11-23-16_14-59
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+
+
+exp_name:   my_experiment_11-23-16_15-06
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+my_experiment_11-23-16_15-06
+    |          |          condition 0      
+itr | avg_cost |   cost     step   entropy 
+  0 |  -576.98 |  -576.98     0.20   -71.22
+  1 |  -575.63 |  -575.63     0.02   -71.74
+  2 |  -576.60 |  -576.60     0.00   -71.74
+  3 |  -577.22 |  -577.22     0.00   -71.74
+  4 |  -577.34 |  -577.34     0.01   -78.98
+  5 |  -578.02 |  -578.02     0.01  -103.69
+  6 |  -576.95 |  -576.95     0.00  -118.67
+  7 |  -578.20 |  -578.20     0.02  -136.01
+  8 |  -578.90 |  -578.90     0.11  -173.46
+  9 |  -579.12 |  -579.12     0.20  -268.83
+
+
+exp_name:   my_experiment_11-23-16_15-46
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+my_experiment_11-23-16_15-46
+    |          |          condition 0      
+itr | avg_cost |   cost     step   entropy 
+  0 |  -576.98 |  -576.98     0.20   -71.22
+  1 |  -575.62 |  -575.62     1.00   -71.59
+  2 |  -576.69 |  -576.69     2.00   -75.34
+  3 |  -577.47 |  -577.47     2.00   -80.31
+  4 |  -579.13 |  -579.13     2.00  -576.14
+  5 |  -580.44 |  -580.44     1.87  -892.49
+  6 |  -580.91 |  -580.91     2.00 -1315.08
+  7 |  -581.09 |  -581.09     2.00 -1837.40
+  8 |  -581.16 |  -581.16     2.00 -2185.65
+  9 |  -581.17 |  -581.17     1.10 -2459.74
+
+
+exp_name:   my_experiment_11-23-16_16-07
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+
+
+exp_name:   my_experiment_11-23-16_16-11
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+
+
+exp_name:   my_experiment_11-23-16_16-17
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+
+
+exp_name:   my_experiment_11-23-16_16-18
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+
+
+exp_name:   my_experiment_11-23-16_16-20
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+
+
+exp_name:   my_experiment_11-24-16_09-47
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+
+
+exp_name:   my_experiment_11-24-16_09-56
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+my_experiment_11-24-16_09-56
+    |          |          condition 0      
+itr | avg_cost |   cost     step   entropy 
+  0 |  -578.32 |  -578.32     0.20  -127.51
+  1 |  -576.31 |  -576.31     1.00  -128.36
+
+
+exp_name:   my_experiment_11-24-16_10-01
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+my_experiment_11-24-16_10-01
+    |          |          condition 0      
+itr | avg_cost |   cost     step   entropy 
+  0 |    -3.47 |    -3.47     0.20  -127.51
+
+
+exp_name:   my_experiment_11-24-16_10-04
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+my_experiment_11-24-16_10-04
+    |          |          condition 0      
+itr | avg_cost |   cost     step   entropy 
+  0 |    13.95 |    13.95     0.20  -127.51
+
+
+exp_name:   my_experiment_11-24-16_10-43
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+
+
+exp_name:   my_experiment_11-24-16_10-45
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+my_experiment_11-24-16_10-45
+    |          |          condition 0      
+itr | avg_cost |   cost     step   entropy 
+  0 |    13.95 |    13.95     0.20  -127.51
+
+
+exp_name:   my_experiment_11-24-16_11-27
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+
+
+exp_name:   my_experiment_11-25-16_17-11
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+my_experiment_11-25-16_17-11
+    |          |          condition 0      
+itr | avg_cost |   cost     step   entropy 
+  0 |    13.95 |    13.95     0.20  -127.51
+  1 |    14.81 |    14.81     1.00  -128.66
+  2 |    10.40 |    10.40     0.10  -138.29
+  3 |    14.82 |    14.82     0.50  -138.58
+  4 |    16.75 |    16.75     0.17  -316.32
+  5 |    10.81 |    10.81     0.75  -366.31
+  6 |     9.82 |     9.82     0.44  -483.03
+  7 |     7.08 |     7.08     0.47  -578.49
+  8 |     6.57 |     6.57     0.21  -676.87
+  9 |     4.34 |     4.34     1.04  -732.78
+
+
+exp_name:   my_experiment_11-26-16_21-59
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+my_experiment_11-26-16_21-59
+    |          |          condition 0      
+itr | avg_cost |   cost     step   entropy 
+  0 |    13.95 |    13.95     0.20  -127.51
+
+
+exp_name:   my_experiment_11-26-16_22-17
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+
+
+exp_name:   my_experiment_11-26-16_22-21
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+my_experiment_11-26-16_22-21
+    |          |          condition 0      
+itr | avg_cost |   cost     step   entropy 
+  0 |    13.95 |    13.95     0.20  -127.51

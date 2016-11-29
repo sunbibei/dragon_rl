@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<launch> 
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">  
+    <arg name="world_name" value="worlds/empty.world"/>  
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+  
+  <!-- Load robot description -->
+  <include file="$(find dragon_description)/launch/upload_single_leg.launch" />
+
+  <!-- Robot state publisher -->
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" />
+
+  <!-- Load Controller Parameters -->
+  <rosparam file="$(find dragon_gazebo)/controller/single_leg_controller.yaml" command="load"/>
+
+  <!-- Spawn Controller -->
+  <node name="single_leg_controller_spawner" pkg="controller_manager" type="controller_manager" args="spawn single_leg_controller" respawn="false" output="screen"/>
+ 
+</launch>

@@ -1,0 +1,90 @@
+
+
+exp_name:   my_experiment_11-05-16_18-25
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+
+
+exp_name:   my_experiment_11-05-16_18-30
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+my_experiment_11-05-16_18-30
+    |          |          condition 0      
+itr | avg_cost |   cost     step   entropy 
+  0 |  -575.13 |  -575.13     0.20  -127.51
+  1 |  -573.78 |  -573.78     1.00  -151.67
+  2 |  -577.20 |  -577.20     2.00  -221.46
+  3 |  -579.92 |  -579.92     2.00  -336.14
+
+
+exp_name:   my_experiment_11-08-16_17-27
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+
+
+exp_name:   my_experiment_11-08-16_19-45
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+
+
+exp_name:   my_experiment_11-08-16_20-15
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+
+
+exp_name:   my_experiment_11-27-16_12-16
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+
+
+exp_name:   my_experiment_11-27-16_12-20
+alg_type:   AlgorithmTrajOpt
+alg_dyn:    DynamicsLRPrior
+alg_cost:   CostSum(CostAction, CostFK, CostFK)
+iterations: 10
+conditions: 1
+samples:    5
+
+my_experiment_11-27-16_12-20
+    |          |          condition 0      
+itr | avg_cost |   cost     step   entropy 
+  0 |    16.67 |    16.67     0.20  -127.51
+  1 |    14.72 |    14.72     0.69  -203.02
+  2 |    13.14 |    13.14     0.47  -394.74
+  3 |     8.93 |     8.93     0.52  -487.10
+  4 |     6.11 |     6.11     1.08  -675.33
+  5 |     4.29 |     4.29     1.09  -929.93
+  6 |     3.37 |     3.37     0.97 -1216.38
+  7 |     2.73 |     2.73     0.73 -1464.64
+  8 |     2.22 |     2.22     0.60 -1644.87
+  9 |     1.94 |     1.94     0.65 -1869.46

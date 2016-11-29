@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<launch> 
+  <arg name="ctrl" default="true" />
+
+  <!-- parameters for only_controller.launch -->
+  <arg name="ns" default="" />
+  <arg name="prefix" default="" />
+  <arg name="ctrl_name" default="GPSLegPlugin" />
+
+  <!-- Load gazebo world -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch" />
+  <!-- Load robot description -->
+  <include file="$(find dragon_description)/launch/upload_single_leg.launch" />
+
+  <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher" />
+
+  <!-- Robot state publisher -->
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+    <param name="publish_frequency" type="double" value="50.0" />
+    <param name="tf_prefix" type="string" value="" />
+  </node>
+
+  <!-- Load The Controller of Agent -->
+  <include if="$(arg ctrl)" file="$(find dragon_agent)/launch/leg_agent_only_controller.launch" >
+    <arg name="ns" value="$(arg ns)" />
+    <arg name="prefix" value="$(arg prefix)" />
+    <arg name="ctrl_name" value="$(arg ctrl_name)" />
+  </include>
+ 
+</launch>

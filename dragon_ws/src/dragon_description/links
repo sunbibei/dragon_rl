@@ -1,0 +1,94 @@
+Link Tree Style: Links in Alphabetic Order
+
+body
+
+left_back_feet
+left_back_leg
+left_back_knee
+
+
+left_front_feet
+left_front_leg
+left_front_knee
+
+right_back_feet
+right_back_leg
+right_back_knee
+
+right_front_feet
+right_front_leg
+right_front_knee
+
+
+world
+
+
+          body:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true
+          left_back_feet:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true 
+	  left_back_leg:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true  
+          left_back_knee:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true 
+          left_front_feet:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true 
+	  left_front_leg:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true  
+          left_front_knee:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true 
+          right_back_feet:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true 
+	  right_back_leg:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true  
+          right_back_knee:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true 
+          right_front_feet:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true 
+	  right_front_leg:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true  
+          right_front_knee:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false
+            Value: true      
+          world:
+            Alpha: 1
+            Show Axes: false
+            Show Trail: false           

@@ -1,0 +1,8 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: dragon_description
+    relative_path: urdf/single_leg.urdf.xacro
+  SRDF:
+    relative_path: config/single_leg.srdf
+  CONFIG:
+    generated_timestamp: 1480152956

@@ -1,0 +1,89 @@
+lf_group_controller:
+  type: effort_controllers/JointTrajectoryController
+  joints:
+     - left_front_hip
+     - left_front_knee
+     - left_front_foot    
+  constraints:
+      goal_time: 0.6
+      stopped_velocity_tolerance: 0.05
+      left_front_hip: {trajectory: 0.1, goal: 0.1}
+      left_front_knee: {trajectory: 0.1, goal: 0.1}
+      left_front_foot: {trajectory: 0.1, goal: 0.1}     
+  stop_trajectory_duration: 0.5
+  state_publish_rate:  25
+  action_monitor_rate: 10
+
+
+rf_group_controller:
+  type: effort_controllers/JointTrajectoryController
+  joints:
+     - right_front_hip
+     - right_front_knee
+     - right_front_foot    
+  constraints:
+      goal_time: 0.6
+      stopped_velocity_tolerance: 0.05
+      right_front_hip: {trajectory: 0.1, goal: 0.1}
+      right_front_knee: {trajectory: 0.1, goal: 0.1}
+      right_front_foot: {trajectory: 0.1, goal: 0.1}     
+  stop_trajectory_duration: 0.5
+  state_publish_rate:  25
+  action_monitor_rate: 10
+
+
+
+lb_group_controller:
+  type: effort_controllers/JointTrajectoryController
+  joints:
+     - left_back_hip
+     - left_back_knee
+     - left_back_foot    
+  constraints:
+      goal_time: 0.6
+      stopped_velocity_tolerance: 0.05
+      left_back_hip: {trajectory: 0.1, goal: 0.1}
+      left_back_knee: {trajectory: 0.1, goal: 0.1}
+      left_back_foot: {trajectory: 0.1, goal: 0.1}     
+  stop_trajectory_duration: 0.5
+  state_publish_rate:  25
+  action_monitor_rate: 10
+
+
+
+rb_group_controller:
+  type: effort_controllers/JointTrajectoryController
+  joints:
+     - right_back_hip
+     - right_back_knee
+     - right_back_foot    
+  constraints:
+      goal_time: 0.6
+      stopped_velocity_tolerance: 0.05
+      right_back_hip: {trajectory: 0.1, goal: 0.1}
+      right_back_knee: {trajectory: 0.1, goal: 0.1}
+      right_back_foot: {trajectory: 0.1, goal: 0.1}     
+  stop_trajectory_duration: 0.5
+  state_publish_rate:  25
+  action_monitor_rate: 10
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,22 @@
+single_leg_controller:
+  type: effort_controllers/JointTrajectoryController
+  joints:
+     - hip
+     - knee
+
+  constraints:
+    goal_time: 0.5                   # Override default
+    stopped_velocity_tolerance: 0.02 # Override default
+    hip:
+      trajectory: 0.05               # Not enforced if unspecified
+      goal: 0.02                     # Not enforced if unspecified
+    knee:
+      goal: 0.01                     # Not enforced if unspecified
+
+  gains: # Required because we're controlling an effort interface
+    hip: {p: 100,  d: 1, i: 1, i_clamp: 1}
+    knee: {p: 100,  d: 1, i: 1, i_clamp: 1}
+
+  state_publish_rate:  25            # Override default
+  action_monitor_rate: 30            # Override default
+  stop_trajectory_duration: 0        # Override default

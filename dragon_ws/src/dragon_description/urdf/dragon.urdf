@@ -1,0 +1,742 @@
+<?xml version="1.0"?>
+<robot name="dragon">
+  <material name="blue">
+    <color rgba="0 0 .8 1"/>
+  </material>
+  <material name="black">
+    <color rgba="0 1 1 1"/>
+  </material>
+  <material name="white">
+    <color rgba="1 1 1 1"/>
+  </material>
+  <material name="green">
+    <color rgba="1 0 0 1"/>
+  </material>
+<!--###########################################################-->
+ <link name="world"/>
+  <joint name="planar_joint" type="planar">
+    <parent link="world"/>
+    <child link="body"/>
+    <origin xyz="0 0 0.61" rpy="0 0 0"/>
+    <limit lower="-10" upper="10" effort="1000" velocity="10"/>
+  </joint>
+<!--###########################################################-->
+  <link name="body">
+    <visual>
+      <geometry>
+        <mesh filename="package://dragon_description/meshes/body_unit_m.stl"/>
+      </geometry>
+      <origin xyz="0.25 0 0.025" rpy="1.570796327 0 1.570796327"/>
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://dragon_description/meshes/body_unit_m.stl"/>
+      </geometry>
+      <origin xyz="0.25 0 0.025" rpy="1.570796327 0 1.570796327"/>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0.025" rpy="0 0 0"/>
+      <mass value="9.9629698"/>
+      <inertia ixx="0.071769214" ixy="-0.0047568570" ixz="0.0032264223" iyy="0.53251054" iyz="-0.0011697860" izz="0.53902202"/>
+    </inertial>
+  </link>
+<!--###########################################################-->
+  <link name="left_front_upper">
+    <visual>
+      <geometry>
+        <mesh filename="package://dragon_description/meshes/body_part.stl"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="1.570796327 0 3.1415926" />
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://dragon_description/meshes/body_part.stl"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="1.570796327 0 3.1415926" />
+    </collision>
+    <inertial>
+      <origin xyz="0 0 -0.15" rpy="0 0 0" />
+      <mass value="0.67833686"/>
+      <inertia ixx="0.00038117398" ixy="0" ixz="0" iyy="0.0064911269" iyz="0" izz="0.0066170081"/>
+    </inertial>
+  </link>
+  <joint name="left_front_fixed" type="fixed">
+    <parent link="body"/>
+    <child link="left_front_upper"/>
+    <origin xyz="0.25 0.135 -0.02" rpy="0 0 0"/>
+  </joint>
+<!--###########################################################-->
+  <link name="right_front_upper">
+    <visual>
+      <geometry>
+        <mesh filename="package://dragon_description/meshes/body_part.stl"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="1.570796327 0 3.1415926" />
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://dragon_description/meshes/body_part.stl"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="1.570796327 0 3.1415926" />
+    </collision>
+    <inertial>
+      <origin xyz="0 0 -0.15" rpy="0 0 0" />
+      <mass value="0.67833686"/>
+      <inertia ixx="0.00038117398" ixy="0" ixz="0" iyy="0.0064911269" iyz="0" izz="0.0066170081"/>
+    </inertial>
+  </link>
+  <joint name="right_front_fixed" type="fixed">
+    <parent link="body"/>
+    <child link="right_front_upper"/>
+    <origin xyz="0.25 -0.135 -0.02" rpy="0 0 0"/>
+  </joint>
+<!--###########################################################-->
+  <link name="left_back_upper">
+    <visual>
+      <geometry>
+        <mesh filename="package://dragon_description/meshes/body_part.stl"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="1.570796327 0 0" />
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://dragon_description/meshes/body_part.stl"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="1.570796327 0 0" />
+    </collision>
+    <inertial>
+      <origin xyz="0 0 -0.15" rpy="0 0 0" />
+      <mass value="0.67833686"/>
+      <inertia ixx="0.00038117398" ixy="0" ixz="0" iyy="0.0064911269" iyz="0" izz="0.0066170081"/>
+    </inertial>
+  </link>
+  <joint name="left_back_fixed" type="fixed">
+    <parent link="body"/>
+    <child link="left_back_upper"/>
+    <origin xyz="-0.3 0.15 0.045" rpy="0 0 0"/>
+  </joint>
+<!--###########################################################-->
+  <link name="right_back_upper">
+    <visual>
+      <geometry>
+        <mesh filename="package://dragon_description/meshes/body_part.stl"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="1.570796327 0 0" />
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://dragon_description/meshes/body_part.stl"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="1.570796327 0 0" />
+    </collision>
+    <inertial>
+      <origin xyz="0 0 -0.15" rpy="0 0 0" />
+      <mass value="0.67833686"/>
+      <inertia ixx="0.00038117398" ixy="0" ixz="0" iyy="0.0064911269" iyz="0" izz="0.0066170081"/>
+    </inertial>
+  </link>
+  <joint name="right_back_fixed" type="fixed">
+    <parent link="body"/>
+    <child link="right_back_upper"/>
+    <origin xyz="-0.3 -0.15 0.045" rpy="0 0 0"/>
+  </joint>
+<!--###########################################################-->
+<!--###########################################################-->
+  <link name="left_front_leg">
+    <visual>
+      <geometry>
+        <mesh filename="package://dragon_description/meshes/upper_leg.stl"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="1.570796327 0 3.1415926" />
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://dragon_description/meshes/upper_leg.stl"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="1.570796327 0 3.1415926" />
+    </collision>
+    <inertial>
+      <origin xyz="0 0 -0.15" rpy="0 0 0" />
+      <mass value="0.58240446"/>
+      <inertia ixx="0.0055694595" ixy="0" ixz="0" iyy="0.0055169487" iyz="0" izz="0.00024018505"/>
+    </inertial>
+  </link>
+  <joint name="left_front_hip" type="revolute">
+    <parent link="left_front_upper"/>
+    <child link="left_front_leg"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <dynamics damping="0" friction="0"/>
+    <limit lower="-0.698131689" upper="0.78539815" effort="100" velocity="100"/>
+  </joint>
+<!--############################################################-->
+  <link name="right_front_leg">
+    <visual>
+      <geometry>
+        <mesh filename="package://dragon_description/meshes/upper_leg.stl"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="1.570796327 0 3.1415926" />
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://dragon_description/meshes/upper_leg.stl"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="1.570796327 0 3.1415926" />
+    </collision>
+    <inertial>
+      <origin xyz="0 0 -0.15" rpy="0 0 0" />
+      <mass value="0.58240446"/>
+      <inertia ixx="0.0055694595" ixy="0" ixz="0" iyy="0.0055169487" iyz="0" izz="0.00024018505"/>
+    </inertial>
+  </link>
+  <joint name="right_front_hip" type="revolute">
+    <parent link="right_front_upper"/>
+    <child link="right_front_leg"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <dynamics damping="0" friction="0"/>
+    <limit lower="-0.698131689" upper="0.78539815" effort="100" velocity="100"/>
+  </joint>
+<!--############################################################-->
+  <link name="left_back_leg">
+    <visual>
+      <geometry>
+        <mesh filename="package://dragon_description/meshes/upper_leg.stl"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="1.570796327 0 0" />
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://dragon_description/meshes/upper_leg.stl"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="1.570796327 0 0" />
+    </collision>
+    <inertial>
+      <origin xyz="0 0 -0.15" rpy="0 0 0" />
+      <mass value="0.58240446"/>
+      <inertia ixx="0.0055694595" ixy="0" ixz="0" iyy="0.0055169487" iyz="0" izz="0.00024018505"/>
+    </inertial>
+  </link>
+  <joint name="left_back_hip" type="revolute">
+    <parent link="left_back_upper"/>
+    <child link="left_back_leg"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <dynamics damping="0" friction="0"/>
+    <limit lower="-0.78539815" upper="0.698131689" effort="100" velocity="100"/>
+  </joint>
+<!--############################################################-->
+  <link name="right_back_leg">
+    <visual>
+      <geometry>
+        <mesh filename="package://dragon_description/meshes/upper_leg.stl"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="1.570796327 0 0" />
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://dragon_description/meshes/upper_leg.stl"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="1.570796327 0 0" />
+    </collision>
+    <inertial>
+      <origin xyz="0 0 -0.15" rpy="0 0 0" />
+      <mass value="0.58240446"/>
+      <inertia ixx="0.0055694595" ixy="0" ixz="0" iyy="0.0055169487" iyz="0" izz="0.00024018505"/>
+    </inertial>
+  </link>
+  <joint name="right_back_hip" type="revolute">
+    <parent link="right_back_upper"/>
+    <child link="right_back_leg"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <dynamics damping="0" friction="0"/>
+    <limit lower="-0.78539815" upper="0.698131689" effort="100" velocity="100"/>
+  </joint>
+<!--############################################################-->
+<!--############################################################-->
+  <link name="left_front_shine">
+    <visual>
+      <geometry>
+        <mesh filename="package://dragon_description/meshes/front_shine.stl"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 3.14159 -1.570796327" />
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://dragon_description/meshes/front_shine.stl"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 3.14159 -1.570796327" />
+    </collision>
+    <inertial>
+      <origin xyz="0 0 -0.15" rpy="0 0 0" />
+      <mass value="0.29186134"/>
+      <inertia ixx="0.0013222921" ixy="0" ixz="0" iyy="0.000039937780" iyz="0" izz="0.0013349732"/>
+    </inertial>
+  </link>
+  <joint name="left_front_knee" type="revolute">
+    <parent link="left_front_leg"/>
+    <child link="left_front_shine"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="0 0 -0.275" rpy="0 0 0"/>
+    <dynamics damping="0" friction="0"/>
+    <limit lower="-1.919862144" upper="-0.174532922" effort="100" velocity="100"/>
+  </joint>
+<!--############################################################-->
+  <link name="right_front_shine">
+    <visual>
+      <geometry>
+        <mesh filename="package://dragon_description/meshes/front_shine.stl"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 3.14159 -1.570796327" />
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://dragon_description/meshes/front_shine.stl"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 3.14159 -1.570796327" />
+    </collision>
+    <inertial>
+      <origin xyz="0 0 -0.15" rpy="0 0 0" />
+      <mass value="0.29186134"/>
+      <inertia ixx="0.0013222921" ixy="0" ixz="0" iyy="0.000039937780" iyz="0" izz="0.0013349732"/>
+    </inertial>
+  </link>
+  <joint name="right_front_knee" type="revolute">
+    <parent link="right_front_leg"/>
+    <child link="right_front_shine"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="0 0 -0.275" rpy="0 0 0"/>
+    <dynamics damping="0" friction="0"/>
+    <limit lower="-1.919862144" upper="-0.174532922" effort="100" velocity="100"/>
+  </joint>
+<!--############################################################-->
+  <link name="left_back_shine">
+    <visual>
+      <geometry>
+        <mesh filename="package://dragon_description/meshes/back_shine.stl"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 0 1.570796327" />
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://dragon_description/meshes/back_shine.stl"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 0 1.570796327" />
+    </collision>
+    <inertial>
+     <origin xyz="0 0 -0.15" rpy="0 0 0" />
+     <mass value="0.29186134"/>
+     <inertia ixx="0.0013222921" ixy="0" ixz="0" iyy="0.000039937780" iyz="0" izz="0.0013349732"/>
+    </inertial>
+  </link>
+  <joint name="left_back_knee" type="revolute">
+    <parent link="left_back_leg"/>
+    <child link="left_back_shine"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="0 0 -0.275" rpy="0 0 0"/>
+    <dynamics damping="0" friction="0"/>
+    <limit lower="0.174532922" upper="1.919862144" effort="100" velocity="100"/>
+  </joint>
+<!--############################################################-->
+  <link name="right_back_shine">
+    <visual>
+      <geometry>
+        <mesh filename="package://dragon_description/meshes/back_shine.stl"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 0 1.570796327" />
+    </visual>
+    <collision>
+      <geometry>
+        <mesh filename="package://dragon_description/meshes/back_shine.stl"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 0 1.570796327" />
+    </collision>
+    <inertial>
+     <origin xyz="0 0 -0.15" rpy="0 0 0" />
+     <mass value="0.29186134"/>
+     <inertia ixx="0.0013222921" ixy="0" ixz="0" iyy="0.000039937780" iyz="0" izz="0.0013349732"/>
+    </inertial>
+  </link>
+  <joint name="right_back_knee" type="revolute">
+    <parent link="right_back_leg"/>
+    <child link="right_back_shine"/>
+    <axis xyz="0 1 0"/>
+    <origin xyz="0 0 -0.275" rpy="0 0 0"/>
+    <dynamics damping="0" friction="0"/>
+    <limit lower="0.174532922" upper="1.919862144" effort="100" velocity="100"/>
+  </joint>
+<!--############################################################-->
+<!--############################################################-->
+  <link name="left_front_feet">
+    <visual>
+      <geometry>
+        <sphere radius="0.01"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </visual>
+    <collision>
+      <geometry>
+        <sphere radius="0.01"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0.1"/>
+      <inertia ixx="0.000004" ixy="0.0" ixz="0.0" iyy="0.000004" iyz="0.0" izz="0.000004"/>
+    </inertial>
+  </link>
+  <joint name="left_front_foot" type="revolute">
+    <parent link="left_front_shine"/>
+    <child link="left_front_feet"/>
+    <origin xyz="0 0 -0.226" rpy="0 0 0"/>
+    <dynamics damping="0" friction="0"/>
+    <limit lower="0" upper="0" effort="0" velocity="0"/>
+  </joint>
+<!--############################################################-->
+  <link name="right_front_feet">
+    <visual>
+      <geometry>
+        <sphere radius="0.01"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </visual>
+    <collision>
+      <geometry>
+        <sphere radius="0.01"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0.1"/>
+      <inertia ixx="0.000004" ixy="0.0" ixz="0.0" iyy="0.000004" iyz="0.0" izz="0.000004"/>
+    </inertial>
+  </link>
+  <joint name="right_front_foot" type="revolute">
+    <parent link="right_front_shine"/>
+    <child link="right_front_feet"/>
+    <origin xyz="0 0 -0.226" rpy="0 0 0"/>
+    <dynamics damping="0" friction="0"/>
+    <limit lower="0" upper="0" effort="0" velocity="0"/>
+  </joint>
+<!--############################################################-->
+  <link name="left_back_feet">
+    <visual>
+      <geometry>
+        <sphere radius="0.01"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </visual>
+    <collision>
+      <geometry>
+        <sphere radius="0.01"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0.1"/>
+      <inertia ixx="0.000004" ixy="0.0" ixz="0.0" iyy="0.000004" iyz="0.0" izz="0.000004"/>
+    </inertial>
+  </link>
+  <joint name="left_back_foot" type="revolute">
+    <parent link="left_back_shine"/>
+    <child link="left_back_feet"/>
+    <origin xyz="0 0 -0.266" rpy="0 0 0"/>
+    <dynamics damping="0" friction="0"/>
+    <limit lower="0" upper="0" effort="0" velocity="0"/>
+  </joint>
+<!--############################################################-->
+  <link name="right_back_feet">
+    <visual>
+      <geometry>
+        <sphere radius="0.01"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </visual>
+    <collision>
+      <geometry>
+        <sphere radius="0.01"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0.1"/>
+      <inertia ixx="0.000004" ixy="0.0" ixz="0.0" iyy="0.000004" iyz="0.0" izz="0.000004"/>
+    </inertial>
+  </link>
+  <joint name="right_back_foot" type="revolute">
+    <parent link="right_back_shine"/>
+    <child link="right_back_feet"/>
+    <origin xyz="0 0 -0.266" rpy="0 0 0"/>
+    <dynamics damping="0" friction="0"/>
+    <limit lower="0" upper="0" effort="0" velocity="0"/>
+  </joint>
+<!--############################################################-->
+<link name="imu_link">
+  <inertial>
+    <mass value="0.001"/>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <inertia ixx="0.000001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.000001"/>
+  </inertial>
+  <visual>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <geometry>
+      <box size="0.001 0.001 0.001"/>
+    </geometry>
+  </visual>
+  <collision>
+    <origin rpy="0 0 0" xyz="0 0 0"/>
+    <geometry>
+      <box size=".001 .001 .001"/>
+    </geometry>
+  </collision>
+</link>
+<joint name="imu_joint" type="revolute">
+    <origin xyz="0 0 0"/>
+    <parent link="body"/>
+    <child link="imu_link"/>
+    <dynamics damping="0" friction="0"/>
+    <limit lower="0" upper="0" effort="0" velocity="0"/>
+</joint>
+
+<!--############################################################-->
+ <gazebo reference="body">
+   <material>Gazebo/Green</material>
+ </gazebo>
+ <gazebo reference="left_front_upper">
+   <material>Gazebo/Turquoise</material>
+ </gazebo>
+ <gazebo reference="left_back_upper">
+   <material>Gazebo/Turquoise</material>
+ </gazebo>
+ <gazebo reference="right_front_upper">
+   <material>Gazebo/Turquoise</material>
+ </gazebo>
+ <gazebo reference="right_back_upper">
+   <material>Gazebo/Turquoise</material>
+ </gazebo>
+ <gazebo reference="left_front_leg">
+   <material>Gazebo/Blue</material>
+ </gazebo>
+ <gazebo reference="left_back_leg">
+   <material>Gazebo/Blue</material>
+ </gazebo>
+ <gazebo reference="right_front_leg">
+   <material>Gazebo/Blue</material>
+ </gazebo>
+ <gazebo reference="right_back_leg">
+   <material>Gazebo/Blue</material>
+ </gazebo>
+ <gazebo reference="left_front_shine">
+   <material>Gazebo/Red</material>
+ </gazebo>
+ <gazebo reference="left_back_shine">
+   <material>Gazebo/Orange</material>
+ </gazebo>
+ <gazebo reference="right_front_shine">
+   <material>Gazebo/Red</material>
+ </gazebo>
+ <gazebo reference="right_back_shine">
+   <material>Gazebo/Orange</material>
+ </gazebo>
+ <gazebo reference="left_front_feet">
+   <material>Gazebo/Yellow</material>
+ </gazebo>
+ <gazebo reference="left_back_feet">
+   <material>Gazebo/Yellow</material>
+ </gazebo>
+ <gazebo reference="right_front_feet">
+   <material>Gazebo/Yellow</material>
+ </gazebo>
+ <gazebo reference="right_back_feet">
+   <material>Gazebo/Yellow</material>
+ </gazebo>
+
+ <gazebo reference="imu_link">
+   <material>Gazebo/RedGlow</material>
+ </gazebo>
+
+ <gazebo reference="left_front_feet">
+  <mu1 value="100.0"/>
+  <mu2 value="100.0"/>
+  <kp  value="10000000.0" />
+  <kd  value="1.0" />
+  <fdir1 value="1 0 0"/>
+ </gazebo>
+ <gazebo reference="left_back_feet">
+  <mu1 value="100.0"/>
+  <mu2 value="100.0"/>
+  <kp  value="10000000.0" />
+  <kd  value="1.0" />
+  <fdir1 value="1 0 0"/>
+ </gazebo>
+ <gazebo reference="right_front_feet">
+  <mu1 value="100.0"/>
+  <mu2 value="100.0"/>
+  <kp  value="10000000.0" />
+  <kd  value="1.0" />
+  <fdir1 value="1 0 0"/>
+ </gazebo>
+ <gazebo reference="right_back_feet">
+  <mu1 value="100.0"/>
+  <mu2 value="100.0"/>
+  <kp  value="10000000.0" />
+  <kd  value="1.0" />
+  <fdir1 value="1 0 0"/>
+ </gazebo>
+
+<!--############################################################-->
+<transmission name="left_front_hip_trans">
+  <type>transmission_interface/SimpleTransmission</type>
+  <joint name="left_front_hip">
+    <hardwareInterface>EffortJointInterface</hardwareInterface>
+  </joint>
+  <actuator name="left_front_hip_motor">
+    <mechanicalReduction>1</mechanicalReduction>
+  </actuator>
+</transmission>
+
+
+<transmission name="left_front_knee_trans">
+  <type>transmission_interface/SimpleTransmission</type>
+  <joint name="left_front_knee">
+    <hardwareInterface>EffortJointInterface</hardwareInterface>
+  </joint>
+  <actuator name="left_front_knee_motor">
+    <mechanicalReduction>1</mechanicalReduction>
+  </actuator>
+</transmission>
+
+
+<transmission name="left_front_foot_trans">
+  <type>transmission_interface/SimpleTransmission</type>
+  <joint name="left_front_foot">
+    <hardwareInterface>EffortJointInterface</hardwareInterface>
+  </joint>
+  <actuator name="left_front_foot_motor">
+    <mechanicalReduction>1</mechanicalReduction>
+  </actuator>
+</transmission>
+<!--############################################################-->
+<transmission name="right_front_hip_trans">
+  <type>transmission_interface/SimpleTransmission</type>
+  <joint name="right_front_hip">
+    <hardwareInterface>EffortJointInterface</hardwareInterface>
+  </joint>
+  <actuator name="right_front_hip_motor">
+    <mechanicalReduction>1</mechanicalReduction>
+  </actuator>
+</transmission>
+
+
+<transmission name="right_front_knee_trans">
+  <type>transmission_interface/SimpleTransmission</type>
+  <joint name="right_front_knee">
+    <hardwareInterface>EffortJointInterface</hardwareInterface>
+  </joint>
+  <actuator name="right_front_knee_motor">
+    <mechanicalReduction>1</mechanicalReduction>
+  </actuator>
+</transmission>
+
+<transmission name="right_front_foot_trans">
+  <type>transmission_interface/SimpleTransmission</type>
+  <joint name="right_front_foot">
+    <hardwareInterface>EffortJointInterface</hardwareInterface>
+  </joint>
+  <actuator name="right_front_foot_motor">
+    <mechanicalReduction>1</mechanicalReduction>
+  </actuator>
+</transmission>
+
+<!--############################################################-->
+<transmission name="left_back_hip_trans">
+  <type>transmission_interface/SimpleTransmission</type>
+  <joint name="left_back_hip">
+    <hardwareInterface>EffortJointInterface</hardwareInterface>
+  </joint>
+  <actuator name="left_back_hip_motor">
+    <mechanicalReduction>1</mechanicalReduction>
+  </actuator>
+</transmission>
+
+
+<transmission name="left_back_knee_trans">
+  <type>transmission_interface/SimpleTransmission</type>
+  <joint name="left_back_knee">
+    <hardwareInterface>EffortJointInterface</hardwareInterface>
+  </joint>
+  <actuator name="left_back_knee_motor">
+    <mechanicalReduction>1</mechanicalReduction>
+  </actuator>
+</transmission>
+
+
+<transmission name="left_back_foot_trans">
+  <type>transmission_interface/SimpleTransmission</type>
+  <joint name="left_back_foot">
+    <hardwareInterface>EffortJointInterface</hardwareInterface>
+  </joint>
+  <actuator name="left_back_foot_motor">
+    <mechanicalReduction>1</mechanicalReduction>
+  </actuator>
+</transmission>
+
+<!--############################################################-->
+<transmission name="right_back_hip_trans">
+  <type>transmission_interface/SimpleTransmission</type>
+  <joint name="right_back_hip">
+    <hardwareInterface>EffortJointInterface</hardwareInterface>
+  </joint>
+  <actuator name="right_back_hip_motor">
+    <mechanicalReduction>1</mechanicalReduction>
+  </actuator>
+</transmission>
+
+
+<transmission name="right_back_knee_trans">
+  <type>transmission_interface/SimpleTransmission</type>
+  <joint name="right_back_knee">
+    <hardwareInterface>EffortJointInterface</hardwareInterface>
+  </joint>
+  <actuator name="right_back_knee_motor">
+    <mechanicalReduction>1</mechanicalReduction>
+  </actuator>
+</transmission>
+
+
+<transmission name="right_back_foot_trans">
+  <type>transmission_interface/SimpleTransmission</type>
+  <joint name="right_back_foot">
+    <hardwareInterface>EffortJointInterface</hardwareInterface>
+  </joint>
+  <actuator name="right_back_foot_motor">
+    <mechanicalReduction>1</mechanicalReduction>
+  </actuator>
+</transmission>
+
+<!--############################################################-->
+<gazebo>
+  <plugin name="imu_sim" filename="libgazebo_ros_imu.so">
+    <updateRate>50.0</updateRate>
+    <bodyName>body</bodyName>
+    <topicName>/dragon/raw_imu_topic</topicName>
+    <serviceName>/dragon/raw_imu_service</serviceName>
+    <rpyOffset>0 0 0</rpyOffset> <!-- deprecated -->
+    <gaussianNoise>0</gaussianNoise>  <!-- deprecated -->
+    <accelDrift>0.5 0.5 0.5</accelDrift>
+    <accelGaussianNoise>0.35 0.35 0.35</accelGaussianNoise>
+    <rateDrift>0.1 0.1 0.1</rateDrift>
+    <rateGaussianNoise>0.05 0.05 0.015</rateGaussianNoise>
+  </plugin>
+
+  <plugin name="ros_control" filename="libgazebo_ros_control.so">
+    
+  </plugin>
+</gazebo>
+<!--############################################################-->
+</robot>

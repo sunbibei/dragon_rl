@@ -1,0 +1,141 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+	<!-- define transmission -->
+  <xacro:include filename="$(find dragon_description)/urdf/leg.transmission.xacro" />
+
+	<property name="pi" value="3.14159265" />
+
+	<!-- Inertia parameters -->
+	<property name="base_mass" value="0.67833686" />
+	<property name="thigh_mass" value="0.58240446" />
+	<property name="shank_mass" value="0.34802183" />
+
+	<!-- link sizes -->
+	<property name="base_length" value="" />
+	<property name="thigh_length" value="0.58240446" />
+	<property name="shank_length" value="0.29186134" />
+
+	<property name="base_radius" value="" />
+	<property name="thigh_radius" value="0.58240446" />
+	<property name="shank_radius" value="0.29186134" />
+
+	<xacro:macro name="cylinder_inertial" params="radius length mass *origin">
+    <inertial>
+      <mass value="${mass}" />
+      <insert_block name="origin" />
+      <inertia ixx="${0.0833333 * mass * (3 * radius * radius + length * length)}" ixy="0.0" ixz="0.0"
+        iyy="${0.0833333 * mass * (3 * radius * radius + length * length)}" iyz="0.0"
+        izz="${0.5 * mass * radius * radius}" />
+    </inertial>
+  </xacro:macro>
+
+	<!-- The template for link -->
+	<xacro:macro name="link_stl_template" params="name stl *origin *inertial" >
+		<link name="${name}">
+			<visual>
+		    <geometry>
+		      <mesh filename="package://dragon_description/meshes/${stl}.stl" />
+		    </geometry>
+		    <xacro:insert_block name="origin" />
+		  </visual>
+		  <collision>
+		    <geometry>
+		      <mesh filename="package://dragon_description/meshes/${stl}.stl" />
+		    </geometry>
+		    <xacro:insert_block name="origin" />
+		  </collision>
+		  <xacro:insert_block name="inertial" />
+	  </link>
+	</xacro:macro>
+
+	<xacro:macro name="link_template" params="name *shape *origin *inertial" >
+		<link name="${name}">
+			<visual>
+		    <geometry>
+		      <xacro:insert_block name="shape" />
+		    </geometry>
+		    <xacro:insert_block name="origin" />
+		  </visual>
+		  <collision>
+		    <geometry>
+		      <xacro:insert_block name="shape" />
+		    </geometry>
+		    <xacro:insert_block name="origin" />
+		  </collision>
+		  <xacro:insert_block name="inertial" />
+	  </link>
+	</xacro:macro>
+
+	<!-- The MACRO for single leg -->
+	<xacro:macro name="leg" params="prefix">
+
+		<xacro:link_stl_template name="${prefix}leg_base" stl="body_part">
+    	<origin xyz="0 0 0" rpy="${pi/2} 0 0" />
+    	<inertial>
+    		<origin xyz="0 0 0" rpy="0 0 0"/>
+    		<mass value="0.67833686" />
+    		<inertia ixx="0.00038117398" ixy="0" ixz="0" iyy="0.0064911269" iyz="0" izz="0.0066170081"/>
+    	</inertial>
+		</xacro:link_stl_template>
+
+		<joint name="${prefix}hip" type="revolute">
+	    <parent link="${prefix}leg_base"/>
+	    <child link="${prefix}thigh"/>
+	    <axis xyz="0 1 0"/>
+	    <origin xyz="0 0 0" rpy="0 0 0"/>
+	    <dynamics damping="0" friction="0"/>
+	    <!--limit lower="-0.78539815" upper="0.698131689" effort="100" velocity="100"/-->
+	    <limit lower="${-0.4*pi/2}" upper="${-0.01*pi/2}" effort="100" velocity="100"/>
+	  </joint>
+
+	  <xacro:link_stl_template name="${prefix}thigh" stl="upper_leg">
+    	<origin xyz="0 0 0" rpy="${pi/2} 0 0" />
+    	<inertial>
+    		<origin xyz="0 0 0" rpy="0 0 0"/>
+    		<mass value="0.58240446" />
+    		<inertia ixx="0.0055694595" ixy="0" ixz="0" iyy="0.0055169487" iyz="0" izz="0.00024018505"/>
+    	</inertial>
+		</xacro:link_stl_template>
+
+		<joint name="${prefix}knee" type="revolute">
+	    <parent link="${prefix}thigh"/>
+	    <child link="${prefix}shank"/>
+	    <axis xyz="0 1 0"/>
+	    <origin xyz="0 0 -0.275" rpy="0 0 0"/>
+	    <dynamics damping="0" friction="0"/>
+	    <!--limit lower="0.174532922" upper="1.919862144" effort="100" velocity="100"/-->
+	    <limit lower="${-0.01*pi/2}" upper="${0.6*pi/2}" effort="100" velocity="100"/>
+	  </joint>
+
+	  <xacro:link_stl_template name="${prefix}shank" stl="back_shine">
+    	<origin xyz="0 0 0" rpy="0 0 ${pi/2}" />
+    	<inertial>
+    		<origin xyz="0 0 0" rpy="0 0 0"/>
+    		<mass value="0.29186134" />
+    		<inertia ixx="0.0013222921" ixy="0" ixz="0" iyy="0.000039937780" iyz="0" izz="0.0013349732"/>
+    	</inertial>
+		</xacro:link_stl_template>
+
+	  <joint name="${prefix}ankle" type="fixed">
+	  	<parent link="${prefix}shank"/>
+	    <child link="${prefix}foot"/>
+	    <origin xyz="0 0 -0.266" rpy="0 0 0" />
+	  </joint>
+
+	  <xacro:link_template name="${prefix}foot" >
+	  	<sphere radius="0.01"/>
+	  	<origin xyz="0 0 0" rpy="0 0 0" />
+	  	<inertial>
+	      <origin xyz="0 0 0" rpy="0 0 0" />
+	      <mass value="0.01"/>
+	      <inertia ixx="0.000004" ixy="0.0" ixz="0.0" iyy="0.000004" iyz="0.0" izz="0.000004"/>
+	    </inertial>
+	  </xacro:link_template>
+
+	  <!-- Define transmission for the leg, MUST BE Set the hardwareInterface -->
+	  <xacro:leg_trans prefix="${prefix}" hardwareInterface="EffortJointInterface"/>
+
+	</xacro:macro>
+
+</robot>

@@ -1,0 +1,11 @@
+<library path="lib/libdragon_agent">
+
+  <class name="dragon_agent/DragonControllerTest"
+         type="dragon_agent::DragonControllerTest"
+         base_class_type="controller_interface::ControllerBase" />
+
+  <class name="dragon_agent/GPSLegPlugin"
+         type="dragon_agent::GPSLegPlugin"
+         base_class_type="controller_interface::ControllerBase" />
+         
+</library>

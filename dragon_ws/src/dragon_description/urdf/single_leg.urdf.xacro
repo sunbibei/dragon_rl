@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<robot name="single_leg" xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+  <!-- common stuff -->
+  <xacro:include filename="$(find dragon_description)/urdf/common.gazebo.xacro" />
+
+  <!-- single leg XACRO -->
+  <xacro:include filename="$(find dragon_description)/urdf/leg.urdf.xacro" />
+
+  <link name="world" />
+
+  <joint name="world_to_base_link_joint" type="fixed" >
+    <parent link="world" />
+    <child link="base_link" />
+  </joint>
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <sphere radius="0.0001"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </visual>
+    <collision>
+      <geometry>
+        <sphere radius="0.0001"/>
+      </geometry>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0.0001"/>
+      <inertia ixx="0" ixy="0.0" ixz="0.0" iyy="0" iyz="0.0" izz="0"/>
+    </inertial>
+  </link>
+
+	<!-- single leg -->
+  <xacro:leg prefix=""/>
+
+  <!-- The joint between the base of single leg and the world -->
+  <joint name="base_link_to_base_joint" type="prismatic">
+    <parent link="base_link" />
+    <child link = "leg_base" />
+    <origin xyz="0.0 0.0 0.7" rpy="0.0 0.0 0.0" />
+    <limit lower="-0.7" upper="1.0" effort="100" velocity="100"/>
+    <axis xyz="0 0 1" />
+  </joint>
+
+</robot>
+

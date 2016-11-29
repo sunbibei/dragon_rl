@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<launch>
+    <arg name="ns" default="" />
+    <arg name="prefix" default="" />
+    <arg name="ctrl_name" default="DragonControllerTest" />
+
+    <param name="$(arg ns)/$(arg ctrl_name)/type" value="dragon_agent/$(arg ctrl_name)" />
+    <param name="joint_name_1" value="$(arg prefix)hip" />
+    <param name="joint_name_2" value="$(arg prefix)knee" />
+    <param name="joint_num" value="2" />
+
+    <!-- controller params -->
+    <param name="$(arg ns)/$(arg ctrl_name)/root_name" value="$(arg prefix)leg_base" />
+    <param name="$(arg ns)/$(arg ctrl_name)/tip_name" value="$(arg prefix)foot" />
+
+    <!-- kalman filter matrices -->
+    <param name="$(arg ns)/$(arg ctrl_name)/encoder_filter_params" textfile="$(find gps_agent_lib)/encoder_filter_params.txt" />
+
+    <!-- Spawn Controller -->
+    <node name="dragon_agent_controller_spawner"
+         pkg="controller_manager" type="controller_manager" output="screen"
+         args="spawn $(arg ctrl_name)" respawn="false" />
+
+</launch>
