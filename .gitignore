@@ -1,4 +1,5 @@
 # Silence: eclipse add remote project
+*.catkin_workspace
 *.project
 *.pydevproject
 *~
