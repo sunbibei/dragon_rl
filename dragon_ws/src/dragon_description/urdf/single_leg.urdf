@@ -141,6 +141,7 @@
       <inertia ixx="0.000004" ixy="0.0" ixz="0.0" iyy="0.000004" iyz="0.0" izz="0.000004"/>
     </inertial>
   </link>
+  
   <!-- Define transmission for the leg, MUST BE Set the hardwareInterface -->
   <transmission name="hip_trans">
     <type>transmission_interface/SimpleTransmission</type>
@@ -169,4 +170,3 @@
     <axis xyz="0 0 1"/>
   </joint>
 </robot>
-
