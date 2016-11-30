@@ -6,6 +6,15 @@
       <!--robotNamespace>/</robotNamespace-->
       <!--robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType-->
     </plugin>
+
+    <plugin name="joint_state_publisher" filename="libgazebo_ros_joint_state_publisher.so">
+      <!--robotNamespace>your_robot_name</robotNamespace-->
+      <jointName>
+          base_link_to_base_joint, hip, knee
+      </jointName>
+      <updateRate>100</updateRate>
+      <alwaysOn>true</alwaysOn>
+  	</plugin>
   </gazebo>
 
 </robot>

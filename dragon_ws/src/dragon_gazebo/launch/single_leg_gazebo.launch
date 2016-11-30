@@ -12,8 +12,11 @@
   <!-- Load robot description -->
   <include file="$(find dragon_description)/launch/upload_single_leg.launch" />
   
-  <!-- Publish JointState to /joint_states -->
-  <include file="$(find dragon_gazebo)/launch/controller_utils.launch"/>
+  <!-- Robot state publisher -->
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
+    <param name="publish_frequency" type="double" value="50.0" />
+    <param name="tf_prefix" type="string" value="" />
+  </node>
 
   <!-- Load Controller Parameters -->
   <rosparam file="$(find dragon_gazebo)/controller/single_leg_controller.yaml" command="load"/>
