@@ -12,13 +12,9 @@
   <!-- Load robot description -->
   <include file="$(find dragon_description)/launch/upload_single_leg.launch" />
 
-  <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher" />
-
-  <!-- Robot state publisher -->
-  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
-    <param name="publish_frequency" type="double" value="50.0" />
-    <param name="tf_prefix" type="string" value="" />
-  </node>
+  <!-- Publish JointState to /joint_states -->
+  <include file="$(find dragon_gazebo)/launch/controller_utils.launch"/>
+  <!--include file="$(find dragon_gazebo)/launch/controller_utils.launch"/-->
 
   <!-- Load The Controller of Agent -->
   <include if="$(arg ctrl)" file="$(find dragon_agent)/launch/leg_agent_only_controller.launch" >

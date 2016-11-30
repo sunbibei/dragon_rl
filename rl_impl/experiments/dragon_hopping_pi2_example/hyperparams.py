@@ -23,13 +23,14 @@ from gps.proto.gps_pb2 import JOINT_ANGLES, JOINT_VELOCITIES, \
 from gps.utility.general_utils import get_ee_points
 from gps.gui.config import generate_experiment_info
 
-EE_POINTS = np.array([[0, 0, 0]])
+EE_POINTS = np.array([[0.02, -0.025, 0.05], [0.02, -0.025, -0.05],
+                      [0.02, 0.05, 0.0]])
 
 SENSOR_DIMS = {
     JOINT_ANGLES: 2,
     JOINT_VELOCITIES: 2,
-    END_EFFECTOR_POINTS: 3,
-    END_EFFECTOR_POINT_VELOCITIES: 3,
+    END_EFFECTOR_POINTS: 3 * EE_POINTS.shape[0],
+    END_EFFECTOR_POINT_VELOCITIES: 3 * EE_POINTS.shape[0],
     ACTION: 2
 }
 
@@ -63,20 +64,20 @@ for i in xrange(common['conditions']):
         common['target_filename'], 'trial_arm', str(i), 'target'
     )
     """
-    ja_x0 = np.array([[-0.51, 0.94]])
+    ja_x0 = np.array([[-0.6283300215244454, 0.9056654473615646]])
     ee_pos_x0 = np.array([[0.0207, 0, 0]])
-    ee_rot_x0 = np.array([[[0.5, 0, 0.866],\
-        [0.866, 1, 0],\
-        [0, 0, 1]]])
+    ee_rot_x0 = np.array([[[0.83372763, -0.54771745, 0.07002733],\
+        [-0.54459356, -0.83658433, -0.05953581],\
+        [0.09119257, 0.01150022, -0.99576687]]])
     ja_aux = np.array([0., 0.])
     ee_pos_tgt = np.array([[0.0207, 0, 0]])
-    ee_rot_tgt = np.array([[[0.5, 0, 0.866],\
-        [0.866, 1, 0],\
-        [0, 0, 1]]])
+    ee_rot_tgt = np.array([[[0.64001542, -0.2471554, 0.72752626],\
+        [-0.6068464, 0.41818058, 0.67591601],\
+        [-0.47129365, -0.87409336, 0.11765665]]])
 
-    x0 = np.zeros(10)
+    x0 = np.zeros(22)
     x0[:2] = ja_x0
-    x0[2:(2 + 3)] = np.ndarray.flatten(
+    x0[4:(4 + 3 * EE_POINTS.shape[0])] = np.ndarray.flatten(
         get_ee_points(EE_POINTS, ee_pos_x0, ee_rot_x0).T
     )
 
@@ -167,8 +168,7 @@ fk_cost = {
     # is 0.
     'target_end_effector': np.zeros(EE_POINTS.shape[0]),
     'wp': np.ones(SENSOR_DIMS[END_EFFECTOR_POINTS]),
-    'l1': -1,
-    'l2': 0.0001,
+    'alpha': 0.5,
     'ramp_option': RAMP_CONSTANT,
 }
 
