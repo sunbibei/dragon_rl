@@ -13,28 +13,16 @@
     <parent link="world" />
     <child link="base_link" />
   </joint>
-  <link name="base_link">
-    <visual>
-      <geometry>
-        <sphere radius="0.0001"/>
-      </geometry>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-    </visual>
-    <collision>
-      <geometry>
-        <sphere radius="0.0001"/>
-      </geometry>
-      <origin xyz="0 0 0" rpy="0 0 0" />
-    </collision>
+
+  <xacro:link_template name="base_link">
+    <sphere radius="0.0001"/>
+    <origin xyz="0 0 0" rpy="0 0 0" />
     <inertial>
       <origin xyz="0 0 0" rpy="0 0 0" />
       <mass value="0.0001"/>
       <inertia ixx="0" ixy="0.0" ixz="0.0" iyy="0" iyz="0.0" izz="0"/>
     </inertial>
-  </link>
-
-	<!-- single leg -->
-  <xacro:leg prefix=""/>
+  </xacro:link_template>
 
   <!-- The joint between the base of single leg and the world -->
   <joint name="base_link_to_base_joint" type="prismatic">
@@ -44,22 +32,19 @@
     <limit lower="-0.7" upper="1.0" effort="100" velocity="100"/>
     <axis xyz="0 0 1" />
   </joint>
-  
-  <!--color define-->
-  <gazebo reference="base_link">
-    <material>Gazebo/Green</material>
-  </gazebo>
-  <gazebo reference="leg_base">
-    <material>Gazebo/Turquoise</material>
-  </gazebo>
-  <gazebo reference="thigh">
-    <material>Gazebo/Blue</material>
-  </gazebo>
-  <gazebo reference="shank">
-    <material>Gazebo/Yellow</material>
-  </gazebo>
-  <gazebo reference="foot">
-    <material>Gazebo/Red</material>
-  </gazebo>
+
+  <!-- Only support obtain the joint state, The joint conn't be handled! -->
+  <transmission name="base_link_to_base_joint_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="base_link_to_base_joint">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="base_link_to_base_joint_motor">
+      <mechanicalReduction>0</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+	<!-- single leg -->
+  <xacro:leg prefix=""/>
 
 </robot>

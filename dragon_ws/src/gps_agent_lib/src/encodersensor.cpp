@@ -27,6 +27,11 @@ EncoderSensor::EncoderSensor(ros::NodeHandle& n, RobotPlugin *plugin, gps::Actua
 
     // Allocate space for end effector points
     n_points_ = 1;
+
+    // Silence: Init
+    temp_tool_joint_angles_.resize(1);
+    previous_actual_end_effector_points_.resize(3,1);
+
     previous_end_effector_points_.resize(3,1);
     previous_end_effector_point_velocities_.resize(3,1);
     temp_end_effector_points_.resize(3,1);
@@ -75,7 +80,6 @@ void EncoderSensor::update(RobotPlugin *plugin, ros::Time current_time, bool is_
         for (unsigned i = 0; i < temp_joint_angles_.size(); i++)
             temp_joint_array_(i) = temp_joint_angles_[i];
         // Run the solvers.
-        // ROS_ERROR("Running the solvers, (fk_solver_: %08X) (jac_solver_: %08X)", (int*)(fk_solver_.get()), (int*)(jac_solver_.get()));
         fk_solver_->JntToCart(temp_joint_array_, temp_tip_pose_);
         jac_solver_->JntToJac(temp_joint_array_, temp_jacobian_);
         // ROS_ERROR("Running the solvers END ... ");
@@ -151,6 +155,19 @@ void EncoderSensor::update(RobotPlugin *plugin, ros::Time current_time, bool is_
 
         // Move temporaries into the previous joint angles.
         previous_end_effector_points_ = temp_end_effector_points_;
+
+        // Silence: modify the end effector position.
+        //plugin->get_tool_joint_encoder_readings(temp_tool_joint_angles_, actuator_type_);
+        //if ((0 != temp_tool_joint_angles_.cols()) && (0 != temp_tool_joint_angles_.rows())) {
+        //  previous_actual_end_effector_points_ = previous_end_effector_points_;
+        //  previous_actual_end_effector_points_(2, 0) = previous_end_effector_points_(2, 0) + temp_tool_joint_angles_[0];
+          //ROS_ERROR("The previous end effector position VS The actual end effector position: \n (%f, %f, %f) vs (%f, %f, %f)",
+          //    previous_end_effector_points_(1, 0), previous_end_effector_points_(2, 0), previous_end_effector_points_(3, 0),
+          //    previous_actual_end_effector_points_(1, 0), previous_actual_end_effector_points_(2, 0), previous_actual_end_effector_points_(3, 0));
+        //} else {
+        //  previous_actual_end_effector_points_ = previous_end_effector_points_;
+        //}
+
         for (unsigned i = 0; i < previous_angles_.size(); i++){
             previous_angles_[i] = temp_joint_angles_[i];
         }
@@ -247,7 +264,7 @@ void EncoderSensor::set_sample_data(boost::scoped_ptr<Sample>& sample, int t)
     sample->set_data_vector(t,gps::JOINT_VELOCITIES,previous_velocities_.data(),previous_velocities_.size(),SampleDataFormatEigenVector);
 
     // Set end effector point.
-    sample->set_data_vector(t,gps::END_EFFECTOR_POINTS,previous_end_effector_points_.data(),previous_end_effector_points_.cols()*previous_end_effector_points_.rows(),SampleDataFormatEigenVector);
+    sample->set_data_vector(t,gps::END_EFFECTOR_POINTS,previous_actual_end_effector_points_.data(),previous_actual_end_effector_points_.cols()*previous_actual_end_effector_points_.rows(),SampleDataFormatEigenVector);
 
     // Set end effector point velocities.
     sample->set_data_vector(t,gps::END_EFFECTOR_POINT_VELOCITIES,previous_end_effector_point_velocities_.data(),previous_end_effector_point_velocities_.cols()*previous_end_effector_point_velocities_.rows(),SampleDataFormatEigenVector);

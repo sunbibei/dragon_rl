@@ -37,6 +37,8 @@ public:
   virtual ros::Time get_current_time() const {return last_update_time_;};
   // Get current encoder readings (robot-dependent).
   virtual void get_joint_encoder_readings(Eigen::VectorXd &angles, gps::ActuatorType arm) const;
+  // Get current tool joint encoder readings (robot-dependent).
+  virtual void get_tool_joint_encoder_readings(Eigen::VectorXd &angles, gps::ActuatorType arm) const;
 
 private:
   bool initialize_fk_solver(ros::NodeHandle&);
@@ -49,6 +51,12 @@ private:
   std::vector<hardware_interface::JointHandle> joint_handles_;
   // Active arm joint names.
   std::vector<std::string> joint_names_;
+
+  // Tool joint state
+  hardware_interface::JointHandle tool_joint_handle_;
+  // Tool joint state name
+  std::string tool_joint_name_;
+
 
   // Time of last state update, only for the function -- @get_current_time().
   ros::Time last_update_time_;

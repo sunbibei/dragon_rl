@@ -118,6 +118,16 @@ bool GPSLegPlugin::initialize_joint(ros::NodeHandle& nh) {
       return false;
   }
 
+  std::string joint_name;
+  if(!nh.getParam("/tool_joint", joint_name)) {
+    ROS_ERROR("Could not found the tool joint parameter, Did you forget setting the parameter for tool joint?");
+    return false;
+  }
+  // Get the tool joint state and name.
+  tool_joint_handle_ = robot_->getHandle(joint_name);
+  tool_joint_name_ = joint_name;
+  ROS_INFO_STREAM("tool joint name: " + tool_joint_name_);
+
   return true;
 }
 
@@ -160,14 +170,34 @@ void GPSLegPlugin::get_joint_encoder_readings(Eigen::VectorXd &angles, gps::Actu
     else if (arm == gps::TRIAL_ARM)
     {
         if (angles.rows() != joint_handles_.size())
-            angles.resize(joint_handles_.size());
+          // Silence: The last angles is the angle of the tool joint
+          angles.resize(joint_handles_.size() + 1);
 
-        for (unsigned i = 0; i < angles.size(); i++)
+        for (unsigned i = 0; i < angles.size() - 1; i++)
             angles(i) = joint_handles_[i].getPosition();
+
+        angles(angles.size() - 1) = tool_joint_handle_.getPosition();
     }
     else
     {
         ROS_ERROR("Unknown ArmType %i requested for joint encoder readings!", arm);
+    }
+}
+
+// Get current tool joint encoder readings (robot-dependent).
+void GPSLegPlugin::get_tool_joint_encoder_readings(Eigen::VectorXd &angles, gps::ActuatorType arm) const {
+    if (arm == gps::AUXILIARY_ARM)
+    {
+        return;
+    }
+    else if (arm == gps::TRIAL_ARM)
+    {
+      angles.resize(1);
+      angles(0) = tool_joint_handle_.getPosition();
+    }
+    else
+    {
+        ROS_ERROR("Unknown ArmType %i requested for tool joint encoder readings!", arm);
     }
 }
 

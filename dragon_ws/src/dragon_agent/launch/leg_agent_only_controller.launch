@@ -8,6 +8,7 @@
     <param name="joint_name_1" value="$(arg prefix)hip" />
     <param name="joint_name_2" value="$(arg prefix)knee" />
     <param name="joint_num" value="2" />
+    <param name="tool_joint" value="base_link_to_base_joint" />
 
     <!-- controller params -->
     <param name="$(arg ns)/$(arg ctrl_name)/root_name" value="$(arg prefix)leg_base" />

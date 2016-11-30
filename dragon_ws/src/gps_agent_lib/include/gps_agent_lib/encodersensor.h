@@ -59,6 +59,12 @@ private:
 
     // End-effector points in the space of the end-effector.
     Eigen::MatrixXd end_effector_points_;
+
+    // Silence: Previous end-effector points.
+    Eigen::MatrixXd previous_actual_end_effector_points_;
+    // Silence: Temporary storage for tool joint angles.
+    Eigen::VectorXd temp_tool_joint_angles_;
+
     // Previous end-effector points.
     Eigen::MatrixXd previous_end_effector_points_;
     // End-effector points target.

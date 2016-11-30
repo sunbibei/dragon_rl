@@ -17,4 +17,21 @@
   	</plugin>
   </gazebo>
 
+    <!--color define-->
+  <gazebo reference="base_link">
+    <material>Gazebo/Green</material>
+  </gazebo>
+  <gazebo reference="leg_base">
+    <material>Gazebo/Turquoise</material>
+  </gazebo>
+  <gazebo reference="thigh">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+  <gazebo reference="shank">
+    <material>Gazebo/Yellow</material>
+  </gazebo>
+  <gazebo reference="foot">
+    <material>Gazebo/Red</material>
+  </gazebo>
+
 </robot>

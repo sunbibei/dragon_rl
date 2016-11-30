@@ -152,6 +152,11 @@ public:
     virtual Sensor *get_sensor(SensorType sensor, gps::ActuatorType actuator_type);
     // Get current encoder readings (robot-dependent).
     virtual void get_joint_encoder_readings(Eigen::VectorXd &angles, gps::ActuatorType arm) const = 0;
+    // Get current tool joint encoder readings (robot-dependent).
+    virtual void get_tool_joint_encoder_readings(Eigen::VectorXd &angles, gps::ActuatorType arm) const {
+        // Nothing to de in the default implement.
+        return;
+    }
     // Get forward kinematics solver.
     virtual void get_fk_solver(boost::shared_ptr<KDL::ChainFkSolverPos> &fk_solver, boost::shared_ptr<KDL::ChainJntToJacSolver> &jac_solver, gps::ActuatorType arm);
 
