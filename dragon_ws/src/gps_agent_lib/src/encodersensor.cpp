@@ -157,16 +157,11 @@ void EncoderSensor::update(RobotPlugin *plugin, ros::Time current_time, bool is_
         previous_end_effector_points_ = temp_end_effector_points_;
 
         // Silence: modify the end effector position.
-        //plugin->get_tool_joint_encoder_readings(temp_tool_joint_angles_, actuator_type_);
-        //if ((0 != temp_tool_joint_angles_.cols()) && (0 != temp_tool_joint_angles_.rows())) {
-        //  previous_actual_end_effector_points_ = previous_end_effector_points_;
-        //  previous_actual_end_effector_points_(2, 0) = previous_end_effector_points_(2, 0) + temp_tool_joint_angles_[0];
-          //ROS_ERROR("The previous end effector position VS The actual end effector position: \n (%f, %f, %f) vs (%f, %f, %f)",
-          //    previous_end_effector_points_(1, 0), previous_end_effector_points_(2, 0), previous_end_effector_points_(3, 0),
-          //    previous_actual_end_effector_points_(1, 0), previous_actual_end_effector_points_(2, 0), previous_actual_end_effector_points_(3, 0));
-        //} else {
-        //  previous_actual_end_effector_points_ = previous_end_effector_points_;
-        //}
+        previous_actual_end_effector_points_ = previous_end_effector_points_;
+        plugin->get_tool_joint_encoder_readings(temp_tool_joint_angles_, actuator_type_);
+        if ((0 != temp_tool_joint_angles_.cols()) && (0 != temp_tool_joint_angles_.rows())) {
+          previous_actual_end_effector_points_(2, 0) = previous_end_effector_points_(2, 0) + temp_tool_joint_angles_[0];
+        }
 
         for (unsigned i = 0; i < previous_angles_.size(); i++){
             previous_angles_[i] = temp_joint_angles_[i];

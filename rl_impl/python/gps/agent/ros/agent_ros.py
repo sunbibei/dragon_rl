@@ -161,6 +161,7 @@ class AgentROS(Agent):
             noise = np.zeros((self.T, self.dU))
 
         # Execute trial.
+        print "Publish The Trial Command"
         trial_command = TrialCommand()
         trial_command.id = self._get_next_seq_id()
         trial_command.controller = policy_to_msg(policy, noise)
