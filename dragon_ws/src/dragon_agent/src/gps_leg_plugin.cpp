@@ -11,6 +11,7 @@
 #include <urdf/model.h>
 #include <kdl/tree.hpp>
 #include <kdl_parser/kdl_parser.hpp>
+#include <gps_agent_lib/positioncontroller.h>
 
 template <typename T>
 std::string to_string(T value) {
@@ -161,6 +162,79 @@ void GPSLegPlugin::update(const ros::Time& time, const ros::Duration& duration) 
     joint_handles_[i].setCommand(active_arm_torques_[i]);
 }
 
+// Initialize position controllers.
+void GPSLegPlugin::initialize_position_controllers(ros::NodeHandle& n)
+{
+    // Create passive arm position controller.
+    // TODO: fix this to be something that comes out of the robot itself
+    // Silence: Get The number of Joint by the ROS Parameters
+    int joint_num = 2;
+    if (!n.getParam("/joint_num", joint_num)) {
+        ROS_WARN("Property joint_num not found in namespace: '/'");
+        ROS_WARN("Using the default joint_num: joint_num = %d", joint_num);
+    }
+    bool is_use_aux_arm = false;
+    if (n.getParam("/use_aux_arm", is_use_aux_arm) && is_use_aux_arm) {
+      ROS_WARN("Configuration the AUXILIARY_ARM");
+      passive_arm_controller_.reset(new gps_control::PositionController(n, gps::AUXILIARY_ARM, joint_num));
+    }
+
+    // Create active arm position controller.
+    active_arm_controller_.reset(new gps_control::PositionController(n, gps::TRIAL_ARM, joint_num));
+}
+
+// Update the controllers at each time step.
+void GPSLegPlugin::update_controllers(ros::Time current_time, bool is_controller_step)
+{
+    // Update passive arm controller.
+    // TODO - don't pass in wrong sample if used
+  if (nullptr != passive_arm_controller_.get())
+    passive_arm_controller_->update(this, current_time, current_time_step_sample_, passive_arm_torques_);
+
+  bool trial_init = trial_controller_ != NULL && trial_controller_->is_configured() && controller_initialized_;
+  if(!is_controller_step && trial_init){
+      return;
+  }
+
+  // If we have a trial controller, update that, otherwise update position controller.
+  if (trial_init) trial_controller_->update(this, current_time, current_time_step_sample_, active_arm_torques_);
+  else active_arm_controller_->update(this, current_time, current_time_step_sample_, active_arm_torques_);
+
+  // Check if the trial controller finished and delete it.
+  if (trial_init && trial_controller_->is_finished()) {
+
+      // Publish sample after trial completion
+      publish_sample_report(current_time_step_sample_, trial_controller_->get_trial_length());
+      //Clear the trial controller.
+      trial_controller_->reset(current_time);
+      trial_controller_.reset(NULL);
+
+      // Set the active arm controller to NO_CONTROL.
+      gps_control::OptionsMap options;
+      options["mode"] = gps::NO_CONTROL;
+      active_arm_controller_->configure_controller(options);
+
+      // Switch the sensors to run at full frequency.
+      for (int sensor = 0; sensor < gps_control::TotalSensorTypes; sensor++)
+      {
+          //sensors_[sensor]->set_update(active_arm_controller_->get_update_delay());
+      }
+  }
+  if (active_arm_controller_->report_waiting){
+    if (active_arm_controller_->is_finished()){
+        publish_sample_report(current_time_step_sample_);
+        active_arm_controller_->report_waiting = false;
+    }
+  }
+  if ((nullptr != passive_arm_controller_.get()) && passive_arm_controller_->report_waiting){
+      if (passive_arm_controller_->is_finished()){
+          publish_sample_report(current_time_step_sample_);
+          passive_arm_controller_->report_waiting = false;
+      }
+  }
+
+}
+
 // Get current encoder readings (robot-dependent).
 void GPSLegPlugin::get_joint_encoder_readings(Eigen::VectorXd &angles, gps::ActuatorType arm) const {
     if (arm == gps::AUXILIARY_ARM)
@@ -170,13 +244,10 @@ void GPSLegPlugin::get_joint_encoder_readings(Eigen::VectorXd &angles, gps::Actu
     else if (arm == gps::TRIAL_ARM)
     {
         if (angles.rows() != joint_handles_.size())
-          // Silence: The last angles is the angle of the tool joint
-          angles.resize(joint_handles_.size() + 1);
+          angles.resize(joint_handles_.size());
 
-        for (unsigned i = 0; i < angles.size() - 1; i++)
+        for (unsigned i = 0; i < angles.size(); i++)
             angles(i) = joint_handles_[i].getPosition();
-
-        angles(angles.size() - 1) = tool_joint_handle_.getPosition();
     }
     else
     {

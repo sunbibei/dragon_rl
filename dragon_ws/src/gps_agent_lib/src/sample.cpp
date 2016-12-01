@@ -39,14 +39,14 @@ void Sample::set_data_vector(int t, gps::SampleType type, double *data, int data
     if (data_format == SampleDataFormatEigenVector) {
         Eigen::VectorXd &vector = boost::get<Eigen::VectorXd>(internal_data_[type][t]);
         if (vector.rows() != data_rows || data_cols != 1)
-            ROS_ERROR("Invalid size in set_data_vector! %i vs %i and cols %i for type %i",
+            ROS_ERROR("Invalid size in set_data_vector Vector! %i vs %i and cols %i for type %i",
                 vector.rows(), data_rows, data_cols, (int)type);
         memcpy(vector.data(), data, sizeof(double) * data_rows * data_cols);
     }
     else if (data_format == SampleDataFormatEigenMatrix) {
         Eigen::MatrixXd &matrix = boost::get<Eigen::MatrixXd>(internal_data_[type][t]);
         if (matrix.rows() != data_rows || matrix.cols() != data_cols)
-            ROS_ERROR("Invalid size in set_data_vector! %i vs %i and %i vs %i for type %i",
+            ROS_ERROR("Invalid size in set_data_vector Matrix! %i vs %i and %i vs %i for type %i",
                 matrix.rows(), data_rows, matrix.cols(), data_cols, (int)type);
         memcpy(matrix.data(), data, sizeof(double) * data_rows * data_cols);
     }

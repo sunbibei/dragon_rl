@@ -152,6 +152,10 @@ void PositionController::configure_controller(OptionsMap &options)
         }
         if(mode_ == gps::JOINT_SPACE){
             target_angles_ = data;
+            //ROS_WARN("The target angles: ");
+            //for (int i = 0; target_angles_.size(); ++i) {
+            //    ROS_WARN(" %04f,", target_angles_(i));
+            //}
         }else{
             ROS_ERROR("Unimplemented position control mode!");
         }
@@ -163,10 +167,12 @@ bool PositionController::is_finished() const
 {
     // Check whether we are close enough to the current target.
     if (mode_ == gps::JOINT_SPACE){
-        double epspos = 0.185;
+        double epspos = 0.18;
         double epsvel = 0.01;
         double error = (current_angles_ - target_angles_).norm();
         double vel = current_angle_velocities_.norm();
+        // ROS_WARN("(error vs epspos): %04f vs %04f", error, epspos);
+        // ROS_WARN("(vel vs epsvel): %04f vs %04f", vel, epsvel);
         return (error < epspos && vel < epsvel);
     }
     else if (mode_ == gps::NO_CONTROL){

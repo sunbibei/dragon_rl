@@ -9,6 +9,9 @@
 #define INCLUDE_DRAGON_AGENT_GPS_LEG_PLUGIN_H_
 
 #include <gps_agent_lib/robotplugin.h>
+#include <gps_agent_lib/trialcontroller.h>
+#include <gps_agent_lib/ControllerParams.h>
+#include <gps_agent_lib/sensor.h>
 
 #include <vector>
 #include <Eigen/Dense>
@@ -32,6 +35,11 @@ public:
   void stopping(const ros::Time&);
   void update(const ros::Time&, const ros::Duration&);
 
+  // Initialize all of the position controllers.
+  virtual void initialize_position_controllers(ros::NodeHandle& n);
+  // Update the controllers at each time step.
+  virtual void update_controllers(ros::Time current_time, bool is_controller_step);
+  
   // These two interface is the abstract function in the RobotPlugin.
   // Get current time.
   virtual ros::Time get_current_time() const {return last_update_time_;};

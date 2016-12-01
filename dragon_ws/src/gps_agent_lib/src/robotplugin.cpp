@@ -141,16 +141,10 @@ void RobotPlugin::initialize_position_controllers(ros::NodeHandle& n)
 {
     // Create passive arm position controller.
     // TODO: fix this to be something that comes out of the robot itself
-    // Silence: Get The number of Joint by the ROS Parameters
-    int joint_num = 2;
-    if (!n.getParam("/joint_num", joint_num)) {
-        ROS_WARN("Property joint_num not found in namespace: '/'");
-        ROS_WARN("Using the default joint_num: joint_num = %d", joint_num);
-    }
-    passive_arm_controller_.reset(new PositionController(n, gps::AUXILIARY_ARM, joint_num));
+    passive_arm_controller_.reset(new PositionController(n, gps::AUXILIARY_ARM, 7));
 
     // Create active arm position controller.
-    active_arm_controller_.reset(new PositionController(n, gps::TRIAL_ARM, joint_num));
+    active_arm_controller_.reset(new PositionController(n, gps::TRIAL_ARM, 7));
 }
 
 // Helper function to initialize a sample from the current sensors.
@@ -304,7 +298,7 @@ void RobotPlugin::position_subscriber_callback(const gps_agent_lib::PositionComm
     params["mode"] = msg->mode;
     Eigen::VectorXd data;
     data.resize(msg->data.size());
-    for(int i=0; i<data.size(); i++){
+    for(int i=0; i<data.size(); i++) {
         data[i] = msg->data[i];
     }
     params["data"] = data;

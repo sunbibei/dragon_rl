@@ -23,8 +23,8 @@ from gps.proto.gps_pb2 import JOINT_ANGLES, JOINT_VELOCITIES, \
 from gps.utility.general_utils import get_ee_points
 from gps.gui.config import generate_experiment_info
 
-EE_POINTS = np.array([[0.02, -0.025, 0.05], [0.02, -0.025, -0.05],
-                      [0.02, 0.05, 0.0]])
+EE_POINTS = np.array([[0.002, -0.0025, 0.005], [0.002, -0.0025, -0.005],
+                      [0.002, 0.005, 0.0]])
 
 SENSOR_DIMS = {
     JOINT_ANGLES: 2,
@@ -85,7 +85,7 @@ for i in xrange(common['conditions']):
         get_ee_points(EE_POINTS, ee_pos_tgt, ee_rot_tgt).T
     )
 
-    aux_x0 = np.zeros(2)
+    aux_x0 = np.array([[-0.6283300215244454, 0.9056654473615646]])
     aux_x0[:] = ja_aux
 
     reset_condition = {
