@@ -184,6 +184,10 @@ add_library(pr2_gps_agent
     ${PR2_FILES}
 )
 
+add_library(baxter_gps_agent
+    src/baxterplugin.cpp
+)
+
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
@@ -202,6 +206,10 @@ target_link_libraries(gps_agent_lib
   ${Eigen_LIBRARIES}
 )
 target_link_libraries(pr2_gps_agent
+  ${catkin_LIBRARIES}
+  gps_agent_lib
+)
+target_link_libraries(baxter_gps_agent
   ${catkin_LIBRARIES}
   gps_agent_lib
 )

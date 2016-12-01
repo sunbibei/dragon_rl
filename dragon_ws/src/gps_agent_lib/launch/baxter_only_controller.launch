@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<launch>
+    <!-- baxter controller load -->
+    <arg name="left_electric_gripper" default="false"/>
+    <arg name="right_electric_gripper" default="false"/>
+
+    <param name="/robot/GPSBaxterPlugin/type" value="baxter_gps_agent/GPSBaxterPlugin" />
+    <rosparam command="load" file="$(find gps_agent_lib)/launch/baxter_arm_controller.yaml" />
+
+    <!-- controller params -->
+    <!-- TODO: The exact link name -->
+    <param name="/robot/GPSBaxterPlugin/root_name" value="torso" />
+    <param name="/robot/GPSBaxterPlugin/active_tip_name" value="left_gripper_base" />
+    <param name="/robot/GPSBaxterPlugin/passive_tip_name" value="right_gripper_base" />
+
+    <!-- kalman filter matrices -->
+    <param name="/robot/GPSBaxterPlugin/encoder_filter_params" textfile="$(find gps_agent_lib)/encoder_filter_params.txt" />
+
+  <!-- baxter_sim_kinematics launch file to do the Forward/Inverse Kinematics -->
+  <include file="$(find baxter_sim_kinematics)/launch/baxter_sim_kinematics.launch" />
+
+  <!-- Load joint controller configurations from YAML file to parameter server -->
+  <rosparam file="$(find baxter_sim_hardware)/config/baxter_sim_controllers.yaml" command="load"/>
+  <rosparam if="$(arg left_electric_gripper)" file="$(find baxter_sim_hardware)/config/baxter_left_electric_gripper_controller.yaml" command="load"/>
+  <rosparam if="$(arg right_electric_gripper)" file="$(find baxter_sim_hardware)/config/baxter_right_electric_gripper_controller.yaml" command="load"/>
+
+  <!-- load the baxter_sim_hardware node -->
+  <node name="baxter_emulator" pkg="baxter_sim_hardware" type="baxter_emulator" respawn="false"
+	output="screen" args="$(find baxter_sim_hardware)/images/researchsdk.png">
+    <param if="$(arg left_electric_gripper)" name="left_gripper_type" value="ELECTRIC_GRIPPER" />
+    <param if="$(arg right_electric_gripper)" name="right_gripper_type" value="ELECTRIC_GRIPPER" />
+  </node>
+  <!-- load the default controllers -->
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+        output="screen" ns="/robot" args="--shutdown-timeout -1 GPSBaxterPlugin" />
+        
+  <!--node name="controller_spawner_gps"
+         pkg="controller_manager" type="controller_manager" output="screen"
+         args="spawn joint_state_controller" /-->
+    
+    <node if="$(arg left_electric_gripper)" name="left_gripper_controller_spawner_stopped" pkg="controller_manager" type="spawner" respawn="false"
+        output="screen" ns="/robot" args="--shutdown-timeout -1 --stopped left_gripper_controller"/>
+
+    <node if="$(arg right_electric_gripper)" name="right_gripper_controller_spawner_stopped" pkg="controller_manager" type="spawner" respawn="false"
+        output="screen" ns="/robot" args="--shutdown-timeout -1 --stopped right_gripper_controller"/>
+
+  <!-- convert joint states to TF transforms -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+	respawn="false" output="screen">
+    <remap from="/joint_states" to="/robot/joint_states" />
+  </node>
+
+  <node name="baxter_sim_io" pkg="baxter_sim_io" type="baxter_sim_io"
+	respawn="false" output="screen">
+  </node>
+</launch>
