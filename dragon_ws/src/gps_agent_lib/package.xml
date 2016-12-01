@@ -81,7 +81,7 @@
   <!-- The export tag contains other, unspecified, tags -->
   <export>
     <!-- Other tools can request additional information be placed here -->
-    <!--pr2_controller_interface plugin="${prefix}/controller_plugins.xml" /-->
+    <pr2_controller_interface plugin="${prefix}/controller_plugins.xml" />
     <controller_interface plugin="${prefix}/baxter_controller_plugins.xml" />
   </export>
 </package>
