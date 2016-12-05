@@ -161,7 +161,7 @@ void EncoderSensor::update(RobotPlugin *plugin, ros::Time current_time, bool is_
         plugin->get_tool_joint_encoder_readings(temp_tool_joint_angles_, actuator_type_);
         if ((0 != temp_tool_joint_angles_.cols()) && (0 != temp_tool_joint_angles_.rows())) {
             for (unsigned i = 0; i < previous_angles_.cols(); i++){
-                previous_actual_end_effector_points_(2, i) += temp_tool_joint_angles_[0];
+                previous_actual_end_effector_points_(2, i) -= temp_tool_joint_angles_[0];
             }
         }
 

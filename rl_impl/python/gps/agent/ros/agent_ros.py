@@ -164,7 +164,7 @@ class AgentROS(Agent):
             noise = np.zeros((self.T, self.dU))
 
         # Execute trial.
-        print "Publish The Trial Command"
+        # print "Publish The Trial Command"
         trial_command = TrialCommand()
         trial_command.id = self._get_next_seq_id()
         trial_command.controller = policy_to_msg(policy, noise)
@@ -185,14 +185,15 @@ class AgentROS(Agent):
             sample = msg_to_sample(sample_msg, self)
             if save:
                 self._samples[condition].append(sample)
-            return sample
         else:
             self._trial_service.publish(trial_command)
             sample_msg = self.run_trial_tf(policy, time_to_run=self._hyperparams['trial_timeout'])
             sample = msg_to_sample(sample_msg, self)
             if save:
                 self._samples[condition].append(sample)
-            return sample
+        from gps.proto.gps_pb2 import END_EFFECTOR_POINTS
+        #print sample.get(END_EFFECTOR_POINTS)
+        return sample
 
     def run_trial_tf(self, policy, time_to_run=5):
         """ Run an async controller from a policy. The async controller receives observations from ROS subscribers
