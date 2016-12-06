@@ -70,16 +70,6 @@ bool QrRosWrapper::start() {
     return false;
   }
 
-  double frequency = 50.0;
-  ros::param::get("~rt_frequency", frequency);
-  if (frequency > 0)
-    rt_duration_ = std::chrono::milliseconds((int)(1000.0 / frequency));
-
-  frequency = 100.0;
-  ros::param::get("~ctrl_loop_frequency", frequency);
-  if (frequency > 0)
-    ros_ctrl_duration_ = std::chrono::milliseconds((int)(1000.0 / frequency));
-
   ros::param::get("~use_ros_control", use_ros_control_);
   if (use_ros_control_) {
     hardware_interface_.reset(
@@ -91,17 +81,29 @@ bool QrRosWrapper::start() {
 
   if (robot_->start()) {
     if (use_ros_control_) {
+      double frequency = 100.0;
+      ros::param::get("~ctrl_loop_frequency", frequency);
+      if (frequency > 0)
+        ros_ctrl_duration_ = std::chrono::milliseconds((int)(1000.0 / frequency));
+
       ros_control_thread_ = new std::thread(
           boost::bind(&QrRosWrapper::rosControlLoop, this));
       LOG(INFO) << "The control thread for this driver has been started";
-    }
-    // start actionserver
-    has_goal_ = false;
-    as_.start();
+    } else {
+      // start actionserver
+      has_goal_ = false;
+      as_.start();
 
-    rt_publish_thread_ = new std::thread(
-        boost::bind(&QrRosWrapper::publishRTMsg, this));
-    LOG(INFO) << "The action server for this driver has been started";
+      double frequency = 50.0;
+      ros::param::get("~rt_frequency", frequency);
+      if (frequency > 0)
+        rt_duration_ = std::chrono::milliseconds((int)(1000.0 / frequency));
+
+      // 若启动ros_control, 则使用joint_state_controller来发布该/joint_states
+      rt_publish_thread_ = new std::thread(
+          boost::bind(&QrRosWrapper::publishRTMsg, this));
+      LOG(INFO) << "The action server for this driver has been started";
+    }
   } else {
     LOG(ERROR) << "The robot thread which for the real-time message has failed";
     return false;
