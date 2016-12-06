@@ -42,10 +42,10 @@ QrDriver::~QrDriver() {
   }
 }
 
-bool QrDriver::initFile(const std::string& xml) {
+bool QrDriver::initFromFile(const std::string& xml) {
 
   if (((nullptr == robot_) || (nullptr == propagate_))
-      && (!RobotParser::parser(xml, this))) {
+      && (!RobotParser::parserFromFile(xml, this))) {
     LOG(ERROR) << "The initialization FAIL in the QrDriver";
     return false;
   }
@@ -55,7 +55,7 @@ bool QrDriver::initFile(const std::string& xml) {
   return connected_;
 }
 
-bool QrDriver::initParam(const std::string& param) {
+bool QrDriver::initFromParam(const std::string& param) {
 
   if (((nullptr == robot_) || (nullptr == propagate_))
       && (!RobotParser::parserFromParam(param, this))) {

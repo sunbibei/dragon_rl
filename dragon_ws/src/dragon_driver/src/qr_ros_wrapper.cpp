@@ -46,13 +46,23 @@ QrRosWrapper::QrRosWrapper()
 bool QrRosWrapper::start() {
   robot_ = QrDriver::getInstance();
   std::string speci = "../robot.xml";
-  ros::param::get("~robot_xml_string", speci);
-  if (!robot_->initParam(speci)) {
-    LOG(ERROR) << "Launch the robot fail from parameter 'robot_xml_string'";
+  if (ros::param::get("~robot_file", speci)) {
+    if (!robot_->initFromFile(speci)) {
+      LOG(ERROR) << "Launch the robot fail from " << speci << " file";
+      return false;
+    }
+  }
+  if (ros::param::get("~robot_xml_string", speci)) {
+    if (!robot_->initFromParam(speci)) {
+      LOG(ERROR) << "Launch the robot fail from parameter 'robot_xml_string'";
+      return false;
+    }
+  }
+  if (!robot_->isInit()) {
+    LOG(ERROR) << "Start QrRosWrapper FAIL";
     return false;
   }
 
-  
   ros::param::get("~use_ros_control", use_ros_control_);
   if (use_ros_control_) {
     hardware_interface_.reset(

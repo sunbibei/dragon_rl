@@ -26,7 +26,7 @@ RobotParser::RobotParser() { }
 
 RobotParser::~RobotParser() { }
 
-bool RobotParser::parser(const std::string& filename, QrDriver* robot) {
+bool RobotParser::parserFromFile(const std::string& filename, QrDriver* robot) {
   if (!RobotParser::init(filename)) {
     LOG(ERROR) << "RobotParser has initialized fail";
     return false;

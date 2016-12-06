@@ -25,7 +25,7 @@ public:
   static ParserMap hw_parser_map_;
   static TiXmlElement* xml_root_;
 
-  static bool parser(const std::string&, QrDriver*);
+  static bool parserFromFile(const std::string&, QrDriver*);
   static bool parserFromParam(const std::string&, QrDriver*);
 
 private:

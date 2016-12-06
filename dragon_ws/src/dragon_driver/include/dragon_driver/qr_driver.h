@@ -34,9 +34,9 @@ public:
   std::vector<JointResMap> joint_res_map_;
 
   // 初始化所有变量, 以及线程等.
-  bool initFile(const std::string& xml = "robot.xml");
-  bool initParam(const std::string& param);
-  bool isInit() const { return ((nullptr != propagate_) && (nullptr != robot_));}
+  bool initFromFile(const std::string& xml = "robot.xml");
+  bool initFromParam(const std::string& param);
+  bool isInit() const { return ((nullptr != propagate_.get()) && (nullptr != robot_.get()));}
   // 开始运行
   bool start();
   // 停止运行
