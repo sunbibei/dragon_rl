@@ -19,7 +19,6 @@ find_package(catkin REQUIRED COMPONENTS
 ## System dependencies are found with CMake's conventions
 find_package(Boost REQUIRED COMPONENTS system)
 
-
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed
 ## See http://ros.org/doc/api/catkin/html/user_guide/setup_dot_py.html
@@ -135,17 +134,24 @@ endif()
 include_directories(
   include/dragon_driver
   ${catkin_INCLUDE_DIRS}
+  /usr/include
 )
 
-set(LIB_FILES src/propagate_imp_pcan.cpp # the test controller plugin
+link_directories(
+  /usr/lib
+)
+
+set(BIN_FILES src/qr_ros_wrapper.cpp
+              src/main.cpp
+              src/propagate_imp_pcan.cpp
               src/robot_parser.cpp
               src/qr_driver.cpp
 )
 
 ## Declare a C++ library
-add_library(dragon_driver_lib
-  ${LIB_FILES}
-)
+#add_library(dragon_driver_lib
+#  ${LIB_FILES}
+#)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -153,16 +159,19 @@ add_library(dragon_driver_lib
 # add_dependencies(dragon_driver ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Declare a C++ executable
-# add_executable(dragon_driver_node src/dragon_driver_node.cpp)
+add_executable(dragon_driver
+  ${BIN_FILES})
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
 # add_dependencies(dragon_driver_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(dragon_driver_node
-#   ${catkin_LIBRARIES}
-# )
+target_link_libraries(dragon_driver
+  ${catkin_LIBRARIES}
+  ${dragon_driver_lib_LIBRARIES}
+  glog
+)
 
 #############
 ## Install ##

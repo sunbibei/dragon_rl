@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot name="quadruped_robot">
+
+	<communication name="propagate" >
+		<channel name="pcan" type="PropagateImpPcan" />
+	</communication>
+
+	<hardware name="robot">
+		<specification name="actuator1" type="Actuator" channel="pcan" >
+			<command value="1.23" mode="velocity" />
+		</specification>
+		<specification name="actuator2" type="Actuator" channel="pcan" >
+			<command value="2.01" mode="position" />
+		</specification>
+
+		<specification name="encoder1" type="Encoder" channel="pcan" />
+		<specification name="encoder2" type="Encoder" channel="pcan" />
+	</hardware>
+
+	<joint_states>
+		<joint name="hip" >
+			<actuator name="actuator1" />
+			<encoder name="encoder1" />
+		</joint>
+
+		<joint name="knee" >
+			<actuator name="actuator2" />
+			<encoder name="encoder2" />
+		</joint>
+	</joint_states>
+
+</robot>

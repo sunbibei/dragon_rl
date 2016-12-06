@@ -42,16 +42,48 @@ bool PropagateImpPcan::read() {
   // 也可以从PCAN的数据中， 明确到底是什么类型的State
   // 转化为对应类型的State, 在进行赋值
   std::string name = "actuator1";
-  auto itr1 = state_map_.find(name);
-  if (state_map_.end() == itr1) {
+  auto itr = state_map_.find(name);
+  if (state_map_.end() == itr) {
     LOG(WARNING) << "Could not found the " << name << " state handle: ";
   } else {
     Actuator::StateTypeSharedPtr act_state
-      = boost::dynamic_pointer_cast<Actuator::StateType>(itr1->second);
+      = boost::dynamic_pointer_cast<Actuator::StateType>(itr->second);
 
     act_state->pos_ = act_state->pos_ + 0.00001;
     act_state->vel_ = act_state->vel_ + 0.00001;
     act_state->tor_ = act_state->tor_ + 0.00001;
+  }
+
+  name = "encoder1";
+  itr = state_map_.find(name);
+  if (state_map_.end() == itr) {
+    LOG(WARNING) << "Could not found the " << name << " state handle: ";
+  } else {
+    Encoder::StateTypeSharedPtr act_state
+      = boost::dynamic_pointer_cast<Encoder::StateType>(itr->second);
+    double current_pos = act_state->pos_ + 0.00001;
+    auto current_time = std::chrono::high_resolution_clock::now();
+    act_state->vel_ = (current_pos - act_state->pos_)
+        / std::chrono::duration_cast<std::chrono::duration<double>>(
+            current_time - act_state->previous_time_).count();
+    act_state->pos_ = current_pos;
+    act_state->previous_time_ = current_time;
+  }
+
+  name = "encoder2";
+  itr = state_map_.find(name);
+  if (state_map_.end() == itr) {
+    LOG(WARNING) << "Could not found the " << name << " state handle: ";
+  } else {
+    Encoder::StateTypeSharedPtr act_state
+      = boost::dynamic_pointer_cast<Encoder::StateType>(itr->second);
+    double current_pos = act_state->pos_ + 0.0000001;
+    auto current_time = std::chrono::high_resolution_clock::now();
+    act_state->vel_ = (current_pos - act_state->pos_)
+        / std::chrono::duration_cast<std::chrono::duration<double>>(
+            current_time - act_state->previous_time_).count();
+    act_state->pos_ = current_pos;
+    act_state->previous_time_ = current_time;
   }
 
   return true;

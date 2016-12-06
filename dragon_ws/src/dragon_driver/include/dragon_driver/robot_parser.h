@@ -23,14 +23,20 @@ public:
   typedef RobotStateBase* (*ParserFunPtr)(TiXmlElement*, PropagateImpBase*);
   typedef std::map<std::string, ParserFunPtr> ParserMap;
   static ParserMap hw_parser_map_;
+  static TiXmlElement* xml_root_;
 
-  static bool parser(const std::string& filename, QrDriver* robot);
+  static bool parser(const std::string&, QrDriver*);
+  static bool parserFromParam(const std::string&, QrDriver*);
 
 private:
   RobotParser();
   ~RobotParser();
 
-  static void init();
+  static bool init(const std::string&);
+  static bool initParam(const std::string&);
+  static bool parserRobotStateAndPropagate(QrDriver* robot);
+  static bool parserJointStates(QrDriver* robot);
+
   static PropagateImpBase* parserPropagate(TiXmlElement* root);
   /**
    * 在解析RobotState的过程中， 将状态句柄填入通讯接口中。

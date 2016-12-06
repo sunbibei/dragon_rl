@@ -9,6 +9,9 @@
 #define QUADRUPED_ROBOT_DRIVER_H_
 
 #include <thread>
+#include <boost/shared_ptr.hpp>
+
+#include <sensor_msgs/JointState.h>
 
 namespace qr_driver {
 
@@ -17,6 +20,55 @@ class RobotStateBase;
 class PropagateImpBase;
 
 class QrDriver {
+public:
+  typedef boost::shared_ptr<PropagateImpBase> PropagateSharedPtr;
+  typedef boost::shared_ptr<RobotStateBase> RobotStateSharedPtr;
+  PropagateSharedPtr  propagate_;
+  RobotStateSharedPtr robot_;
+
+  typedef struct {
+    std::string joint_name_;
+    std::vector<std::string> actuator_names_;
+    std::vector<std::string> encoder_names_;
+  } JointResMap;
+  std::vector<JointResMap> joint_res_map_;
+
+  // 初始化所有变量, 以及线程等.
+  bool initFile(const std::string& xml = "robot.xml");
+  bool initParam(const std::string& param);
+  bool isInit() const { return ((nullptr != propagate_) && (nullptr != robot_));}
+  // 开始运行
+  bool start();
+  // 停止运行
+  void halt();
+  // 设定命令, 并传递给机器人
+  void addCommand(HWCommandBase&);
+  /**
+   * 获取Joint的名称
+   */
+  std::vector<std::string> getJointNames();
+  /**
+   * Actual joint positions
+   */
+  std::vector<double> getJointPositions();
+  /**
+   * Actual joint velocities
+   */
+  std::vector<double> getJointVelocities();
+  /**
+   * Actual joint torques TODO NO IMPLEMENTS
+   */
+  std::vector<double> getJointTorques();
+  /**
+   * Actual JointState( Recommended )
+   */
+  void getJointStates(sensor_msgs::JointState&);
+
+public:
+  ~QrDriver();
+  // 获取QuadrupedRobotDriver对象实例
+  static QrDriver* getInstance();
+
 private:
   QrDriver();
 
@@ -35,26 +87,6 @@ private:
   bool keepalive_;
   bool connected_;
   std::thread propagate_thread_;
-
-public:
-  ~QrDriver();
-  // 获取QuadrupedRobotDriver对象实例
-  static QrDriver* getInstance();
-
-  typedef boost::shared_ptr<PropagateImpBase> PropagateSharedPtr;
-  typedef boost::shared_ptr<RobotStateBase> RobotStateSharedPtr;
-  PropagateSharedPtr  propagate_;
-  RobotStateSharedPtr robot_;
-
-public:
-  // 初始化所有变量, 以及线程等.
-  bool init(const std::string& xml = "robot.xml");
-  // 开始运行
-  bool start();
-  // 停止运行
-  void halt();
-  // 设定命令, 并传递给机器人
-  void addCommand(HWCommandBase&);
 };
 
 } /* namespace quadruped_robot_driver */

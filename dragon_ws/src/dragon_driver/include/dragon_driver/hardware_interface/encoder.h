@@ -9,6 +9,7 @@
 #define INCLUDE_JOINT_ENCODER_H_
 
 #include <atomic>
+#include <chrono>
 
 #include <hardware_interface/robot_state_base.h>
 
@@ -16,10 +17,15 @@ namespace qr_driver {
 
 struct EncoderState : public HWStateBase {
   std::atomic<double> pos_;
+  // 需要propagate实例中， 通过软件代码计算出速度填入数据
+  std::atomic<double> vel_;
+  // 计算速度的辅助变量, 保存前一次更新的时间
+  std::chrono::high_resolution_clock::time_point previous_time_;
 
-  EncoderState(const std::string& name, double pos = 0)
+  EncoderState(const std::string& name, double pos = 0, double vel = 0)
     : HWStateBase(name),
-      pos_(pos)
+      pos_(pos), vel_(vel),
+      previous_time_(std::chrono::high_resolution_clock::now())
   { };
   virtual ~EncoderState() {};
   virtual std::string toString() {
@@ -47,7 +53,7 @@ public:
           << state_->name_ << " vs " << name << ")";
       return HWStateSharedPtr(nullptr);
     } else {
-      return HWStateSharedPtr(new StateType(name, state_->pos_));
+      return HWStateSharedPtr(new StateType(name, state_->pos_, state_->vel_));
     }
   };
 
