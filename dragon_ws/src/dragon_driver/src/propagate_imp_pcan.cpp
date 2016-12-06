@@ -21,41 +21,66 @@ bool PropagateImpPcan::init() {
   return true;
 }
 
-// 完成数据的读写.
-bool PropagateImpPcan::write(std::vector<std::string> names) {
+void PropagateImpPcan::stop() {
+  return;
+}
+
+// 完成数据的读写. (下面全是测试代码)
+bool PropagateImpPcan::write(const std::vector<std::string>& names) {
   if (names.empty()) return true;
 
-  LOG(INFO) << "PCAN write: ";
-  for (auto name : names) {
+  // LOG(INFO) << "PCAN write: ";
+  for (const std::string& name : names) {
     auto itr = cmd_map_.find(name);
-    if (cmd_map_.end() != itr)
-      LOG(INFO) << name << ": " << cmd_map_[name];
-    else {
-      LOG(WARNING) << "Could not found the " << name << " command handle( ";
+    if (cmd_map_.end() != itr) {
+      Actuator::CmdTypeSharedPtr cmd = boost::dynamic_pointer_cast<Actuator::CmdType>(itr->second);
+      LOG(INFO) << "command: " << cmd->command_
+          << " mode: " << cmd->mode_;
+
+      if (0 == name.compare("hip_motor")) {
+        std::string enc_name = "hip_encoder";
+        auto itr_state = state_map_.find(enc_name);
+        Encoder::StateTypeSharedPtr act_state
+          = boost::dynamic_pointer_cast<Encoder::StateType>(itr_state->second);
+
+        double current_pos = cmd->command_;
+        auto current_time = std::chrono::high_resolution_clock::now();
+        act_state->vel_ = (current_pos - act_state->pos_)
+            / std::chrono::duration_cast<std::chrono::duration<double>>(
+                current_time - act_state->previous_time_).count();
+        act_state->pos_ = current_pos;
+        act_state->previous_time_ = current_time;
+
+      } else if (0 == name.compare("knee_motor")) {
+        std::string enc_name = "knee_encoder";
+        auto itr_state = state_map_.find(enc_name);
+        Encoder::StateTypeSharedPtr act_state
+          = boost::dynamic_pointer_cast<Encoder::StateType>(itr_state->second);
+
+        double current_pos = cmd->command_;
+        auto current_time = std::chrono::high_resolution_clock::now();
+        act_state->vel_ = (current_pos - act_state->pos_)
+            / std::chrono::duration_cast<std::chrono::duration<double>>(
+                current_time - act_state->previous_time_).count();
+        act_state->pos_ = current_pos;
+        act_state->previous_time_ = current_time;
+      } else {
+        ; // Nothing to de here
+      }
+    } else {
+      LOG(WARNING) << "Could not found the " << name << " command handle";
     }
   }
   return true;
 }
 
+// (下面全是测试代码)
 bool PropagateImpPcan::read() {
   // 从PCAN中获取到的数据对应到具体的状态name
   // 也可以从PCAN的数据中， 明确到底是什么类型的State
   // 转化为对应类型的State, 在进行赋值
-  std::string name = "actuator1";
+  std::string name = "knee_encoder";
   auto itr = state_map_.find(name);
-  if (state_map_.end() == itr) {
-    LOG(WARNING) << "Could not found the " << name << " state handle: ";
-  } else {
-    Actuator::StateTypeSharedPtr act_state
-      = boost::dynamic_pointer_cast<Actuator::StateType>(itr->second);
-
-    act_state->pos_ = act_state->pos_ + 0.00001;
-    act_state->vel_ = act_state->vel_ + 0.00001;
-    act_state->tor_ = act_state->tor_ + 0.00001;
-  }
-
-  name = "encoder1";
-  itr = state_map_.find(name);
   if (state_map_.end() == itr) {
     LOG(WARNING) << "Could not found the " << name << " state handle: ";
   } else {
@@ -70,7 +95,7 @@ bool PropagateImpPcan::read() {
     act_state->previous_time_ = current_time;
   }
 
-  name = "encoder2";
+  name = "hip_encoder";
   itr = state_map_.find(name);
   if (state_map_.end() == itr) {
     LOG(WARNING) << "Could not found the " << name << " state handle: ";

@@ -28,6 +28,7 @@ struct MotorState : public HWStateBase {
 
   virtual ~MotorState() {};
 
+  // For Debug
   virtual std::string toString() {
     std::stringstream ss;
     ss << HWStateBase::toString();
@@ -52,6 +53,7 @@ struct MotorCmd : public HWCommandBase {
       command_(cmd), mode_(MODE_TOR_) { };
   virtual ~MotorCmd() {};
 
+  // For Debug
   virtual std::string toString() {
     std::stringstream ss;
     ss << HWCommandBase::toString();
@@ -105,19 +107,41 @@ public:
   virtual void setState(const HWStateBase& state) {
     if (0 != name_.compare(state.name_)) return;
 
-    const StateType& motor_state = static_cast<const StateType&>(state);
+    const StateType& motor_state = dynamic_cast<const StateType&>(state);
     double val = motor_state.pos_;
     motor_state_->pos_ = val;
     val = motor_state.vel_;
     motor_state_->vel_ = val;
     val = motor_state.tor_;
     motor_state_->tor_ = val;
-  };
+  }
+
+  virtual void setState(const HWStateSharedPtr& state) {
+    if (0 != name_.compare(state->name_)) return;
+
+    StateTypeSharedPtr motor_state = boost::dynamic_pointer_cast<StateType>(state);
+    double val = motor_state->pos_;
+    motor_state_->pos_ = val;
+    val = motor_state->vel_;
+    motor_state_->vel_ = val;
+    val = motor_state->tor_;
+    motor_state_->tor_ = val;
+  }
+
+  virtual void setCommand(const HWCmdSharedPtr& cmd) {
+    if (0 != name_.compare(cmd->name_)) return;
+
+    CmdTypeSharedPtr motor_cmd = boost::dynamic_pointer_cast<CmdType>(cmd);
+    CmdType::MODE_ mode = motor_cmd->mode_;
+    motor_cmd_->mode_ = mode;
+    double val = motor_cmd->command_;
+    motor_cmd_->command_ = val;
+  }
 
   virtual void setCommand(const HWCommandBase& cmd) {
     if (0 != name_.compare(cmd.name_)) return;
 
-    const CmdType& motor_cmd = static_cast<const CmdType&>(cmd);
+    const CmdType& motor_cmd = dynamic_cast<const CmdType&>(cmd);
     CmdType::MODE_ mode = motor_cmd.mode_;
     motor_cmd_->mode_ = mode;
     double val = motor_cmd.command_;

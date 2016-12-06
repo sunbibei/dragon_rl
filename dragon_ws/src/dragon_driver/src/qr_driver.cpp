@@ -36,6 +36,8 @@ QrDriver::QrDriver()
 
 QrDriver::~QrDriver() {
   this->halt();
+  propagate_.reset((PropagateImpBase*)nullptr);
+  robot_.reset((RobotStateBase*)nullptr);
   if (nullptr != instance_) {
     delete instance_;
     instance_ = nullptr;
@@ -108,11 +110,35 @@ void QrDriver::halt() {
   LOG(INFO) << "QrDrvier halt... ...";
 }
 
-void QrDriver::addCommand(HWCommandBase& cmd) {
+/**
+ * 增加单个执行器命令到命令队列
+ */
+void QrDriver::addCommand(const HWCommandBase& cmd) {
   cmd_vec_.push_back(cmd.name_);
   robot_->setCommand(cmd);
   new_command_ = true;
 }
+
+/**
+ * 增加单个执行器命令到命令队列
+ */
+void QrDriver::addCommand(const HWCmdSharedPtr& cmd) {
+  cmd_vec_.push_back(cmd->name_);
+  robot_->setCommand(cmd);
+  new_command_ = true;
+}
+
+/**
+ * 增加多个执行器命令到命令队列
+ */
+void QrDriver::addCommand(const std::vector<HWCmdSharedPtr>& cmd_vec) {
+  for (auto& cmd : cmd_vec) {
+    cmd_vec_.push_back(cmd->name_);
+  }
+  robot_->setCommand(cmd_vec);
+  new_command_ = true;
+}
+
 /**
  * 获取Joint的名称
  */

@@ -18,11 +18,13 @@ namespace qr_driver {
 class HWCommandBase;
 class RobotStateBase;
 class PropagateImpBase;
+typedef boost::shared_ptr<HWCommandBase> HWCmdSharedPtr;
+typedef boost::shared_ptr<PropagateImpBase> PropagateSharedPtr;
+typedef boost::shared_ptr<RobotStateBase> RobotStateSharedPtr;
 
 class QrDriver {
 public:
-  typedef boost::shared_ptr<PropagateImpBase> PropagateSharedPtr;
-  typedef boost::shared_ptr<RobotStateBase> RobotStateSharedPtr;
+
   PropagateSharedPtr  propagate_;
   RobotStateSharedPtr robot_;
 
@@ -36,13 +38,17 @@ public:
   // 初始化所有变量, 以及线程等.
   bool initFromFile(const std::string& xml = "robot.xml");
   bool initFromParam(const std::string& param);
-  bool isInit() const { return ((nullptr != propagate_.get()) && (nullptr != robot_.get()));}
+  bool isInit() const { return ((nullptr != propagate_) && (nullptr != robot_));}
   // 开始运行
   bool start();
   // 停止运行
   void halt();
   // 设定命令, 并传递给机器人
-  void addCommand(HWCommandBase&);
+  void addCommand(const HWCommandBase&);
+  // 设定命令, 并传递给机器人
+  void addCommand(const HWCmdSharedPtr&);
+  // 设定命令, 并传递给机器人
+  void addCommand(const std::vector<HWCmdSharedPtr>&);
   /**
    * 获取Joint的名称
    */

@@ -21,6 +21,7 @@ struct HWStateBase   {
   HWStateBase(const std::string& name) : name_(name) { };
   virtual ~HWStateBase() { };
 
+  // For Debug
   virtual std::string toString() {
     return "name: " + name_ + " ";
   }
@@ -31,6 +32,7 @@ struct HWCommandBase {
   HWCommandBase(const std::string& name) : name_(name) { };
   virtual ~HWCommandBase() { };
 
+  // For Debug
   virtual std::string toString() {
     return "name: " + name_ + " ";
   }
@@ -44,6 +46,7 @@ typedef boost::shared_ptr<RobotStateBase> RobotStateSharedPtr;
 class RobotStateBase {
 public:
   // 该函数子类选择性进行实现, 在函数内部, 需要完成数据的读写.
+  // 若RobotState子类具备State， 则必须重写该函数实现
   virtual HWStateSharedPtr getState(const std::string& name) {
     HWStateSharedPtr ret(nullptr);
     auto hw = hw_map_.find(name);
@@ -55,6 +58,7 @@ public:
     return ret;
   }
 
+  // 若RobotState子类具备Command， 则必须重写该函数实现
   virtual HWCmdSharedPtr getCommand(const std::string& name) {
     HWCmdSharedPtr ret(nullptr);
     auto hw = hw_map_.find(name);
@@ -65,7 +69,7 @@ public:
     ret = hw->second->getCommand(name);
     return ret;
   }
-
+  // 若RobotState子类具备State， 则必须重写该函数实现
   virtual void setState(const HWStateBase& state) {
     auto hw = hw_map_.find(state.name_);
     if (hw_map_.end() == hw) {
@@ -73,8 +77,17 @@ public:
       return;
     }
     hw->second->setState(state);
-  };
-
+  }
+  // 若RobotState子类具备State， 则必须重写该函数实现
+  virtual void setState(const HWStateSharedPtr& state) {
+    auto hw = hw_map_.find(state->name_);
+    if (hw_map_.end() == hw) {
+      LOG(WARNING) << "Could not found the haredware interface: " << state->name_;
+      return;
+    }
+    hw->second->setState(state);
+  }
+  // 若RobotState子类具备State， 则必须重写该函数实现
   virtual void setCommand(const HWCommandBase& cmd) {
     auto hw = hw_map_.find(cmd.name_);
     if (hw_map_.end() == hw) {
@@ -82,15 +95,28 @@ public:
       return;
     }
     hw->second->setCommand(cmd);
-  };
+  }
+  // 若RobotState子类具备State， 则必须重写该函数实现
+  virtual void setCommand(const HWCmdSharedPtr& cmd) {
+    auto hw = hw_map_.find(cmd->name_);
+    if (hw_map_.end() == hw) {
+      LOG(WARNING) << "Could not found the haredware interface: " << cmd->name_;
+      return;
+    }
+    hw->second->setCommand(cmd);
+  }
+  // 若无特殊需求， 子类具备不需重写该函数， 保持默认实现即可
+  virtual void setCommand(const std::vector<HWCmdSharedPtr>& cmd_vec) {
+    for (auto& cmd : cmd_vec) {
+      setCommand(cmd);
+    }
+  }
 
   RobotStateBase(const std::string& name)
       : name_(name) { };
   virtual ~RobotStateBase() { };
 
-  const std::string& getName() {
-    return name_;
-  }
+  const std::string& getName() { return name_; }
 
 public:
   /**

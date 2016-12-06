@@ -74,10 +74,6 @@ bool RobotParser::initParam(const std::string& param) {
   // 初始化XML文档相关内容
   TiXmlDocument* xml_doc = new TiXmlDocument();
   xml_doc->Parse(param.c_str());
-  //if (nullptr == xml_doc->Parse(param.c_str())) {
-  //  LOG(ERROR) << "Fail parse from parameter, did you forget define the parameter?";
-  //  return false;
-  //}
   xml_root_ = xml_doc->RootElement();  // Robot
   return true;
 }

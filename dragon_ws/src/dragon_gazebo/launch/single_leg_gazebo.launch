@@ -11,6 +11,10 @@
   
   <!-- Load robot description -->
   <include file="$(find dragon_description)/launch/upload_single_leg.launch" />
+
+  <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+    args="-urdf -model single_leg -param robot_description"/>
   
   <!-- Robot state publisher -->
   <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">

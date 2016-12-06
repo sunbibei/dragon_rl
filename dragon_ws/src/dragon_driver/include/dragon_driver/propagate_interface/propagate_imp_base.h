@@ -22,26 +22,43 @@ public:
     : connected_(false), name_(name) { };
   virtual ~PropagateImpBase() { };
 
+  /**
+   * 每一个注册的imp都初始化成功， 才返回true
+   */
   virtual bool init() {
     connected_ = true;
-    for (auto imp : imp_map_) {
+    for (auto& imp : imp_map_) {
       connected_ = (connected_ && imp.second->init());
     }
     return connected_;
   }
-  // 该函数子类必须进行实现, 在函数内部, 需要完成数据的读写.
-  virtual bool write(std::vector<std::string> names) {
-    for (auto imp : imp_map_) {
+  /**
+   * names可能包含多种imp的通信方式
+   * 当且仅当names中存在CMD名称是属于本imp子类所管理， 并且写入失败时，
+   * 返回false, 其他情况均返回true
+   */
+  virtual bool write(const std::vector<std::string>& names) {
+    connected_ = false;
+    for (auto& imp : imp_map_) {
       connected_ = (connected_ || imp.second->write(names));
     }
     return connected_;
   }
 
+  /**
+   * 所有通信通道均read正常， 方才返回true
+   */
   virtual bool read() {
-    for (auto imp : imp_map_) {
+    for (auto& imp : imp_map_) {
       connected_ = connected_ && imp.second->read();
     }
     return connected_;
+  }
+
+  virtual void stop() {
+    for (auto& imp : imp_map_) {
+      imp.second->stop();
+    }
   }
 
 public:

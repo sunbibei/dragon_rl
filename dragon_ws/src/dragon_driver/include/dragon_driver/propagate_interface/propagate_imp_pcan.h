@@ -22,9 +22,10 @@ public:
   virtual ~PropagateImpPcan();
 
   virtual bool init();
+  virtual void stop();
 
   // 完成数据的读写.
-  virtual bool write(std::vector<std::string> names);
+  virtual bool write(const std::vector<std::string>&);
   virtual bool read();
 };
 

@@ -13,6 +13,7 @@
 
 #include <ros/ros.h>
 #include <sensor_msgs/JointState.h>
+#include <std_msgs/Int32.h>
 #include <actionlib/server/action_server.h>
 #include <trajectory_msgs/JointTrajectory.h>
 #include <actionlib/server/server_goal_handle.h>
@@ -43,6 +44,10 @@ private:
   void publishRTMsg();
   void rosControlLoop();
 
+  // 测试消息回调函数
+  void cbForDebug(const std_msgs::Int32ConstPtr&);
+  ros::Subscriber cmd_sub_;
+
 private:
   static QrRosWrapper* instance_;
   bool alive_;
@@ -56,7 +61,8 @@ private:
   control_msgs::FollowJointTrajectoryResult result_;
 
   QrDriver* robot_;
-  std::chrono::milliseconds rt_duration_; // 实时消息发布频率， 默认是50Hz(使用周期表示）
+  std::chrono::milliseconds rt_duration_; // 实时消息发布频率， 默认是50Hz(使用周期表示, 即20ms）
+  std::chrono::milliseconds ros_ctrl_duration_; // ros_control_thread_循环频率， 默认是100Hz(使用周期表示, 即10ms）
   std::thread* rt_publish_thread_; // 该线程发布实时消息
   std::thread* ros_control_thread_; // 若启动ros_control机制， 该线程维护ros_control的正常流程
   bool use_ros_control_;

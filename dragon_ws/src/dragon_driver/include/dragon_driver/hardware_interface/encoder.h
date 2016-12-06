@@ -28,6 +28,7 @@ struct EncoderState : public HWStateBase {
       previous_time_(std::chrono::high_resolution_clock::now())
   { };
   virtual ~EncoderState() {};
+  // For Debug
   virtual std::string toString() {
     std::stringstream ss;
     ss << HWStateBase::toString();
