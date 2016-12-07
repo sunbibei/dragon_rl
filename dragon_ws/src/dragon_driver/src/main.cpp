@@ -39,8 +39,6 @@ int main(int argc, char* argv[]) {
   ros::waitForShutdown();
 
   interface->halt();
-  delete interface;
-  interface = nullptr;
 
   return 0;
 }

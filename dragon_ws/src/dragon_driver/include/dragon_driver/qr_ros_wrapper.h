@@ -44,6 +44,22 @@ private:
   void publishRTMsg();
   void rosControlLoop();
 
+  /**
+   * FollowJointTrajectory实际执行线程
+   */
+  void trajThread(std::vector<double> timestamps,
+      std::vector<std::vector<double> > positions,
+      std::vector<std::vector<double> > velocities);
+  /**
+   * ActionServer执行的辅助函数
+   */
+  bool validateJointNames();
+  bool has_velocities();
+  bool has_positions();
+  bool traj_is_finite();
+  void reorder_traj_joints(trajectory_msgs::JointTrajectory&);
+  bool start_positions_match(const trajectory_msgs::JointTrajectory &traj, double eps);
+
   // 测试消息回调函数
   void cbForDebug(const std_msgs::Int32ConstPtr&);
   ros::Subscriber cmd_sub_;
@@ -56,9 +72,8 @@ private:
   // FollowJointTrjectoryAction服务器相关变量。 实现FollowJointTrajectory功能
   actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction> as_;
   actionlib::ServerGoalHandle<control_msgs::FollowJointTrajectoryAction> goal_handle_;
-  bool has_goal_;
-  control_msgs::FollowJointTrajectoryFeedback feedback_;
   control_msgs::FollowJointTrajectoryResult result_;
+  bool has_goal_;
 
   QrDriver* robot_;
   std::chrono::milliseconds rt_duration_; // 实时消息发布频率， 默认是50Hz(使用周期表示, 即20ms）

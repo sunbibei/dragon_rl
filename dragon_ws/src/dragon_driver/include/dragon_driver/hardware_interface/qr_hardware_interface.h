@@ -117,28 +117,13 @@ public:
   virtual void write() {
     // TODO
     if (velocity_interface_running_) {
-      // TODO do some rate limiting?
-      std::vector<HWCmdSharedPtr> cmd_vec;
-      cmd_vec.reserve(num_joints_);
-
-      // TODO 需要实际公式计算， 当前实现版本仅仅是电机的速度控制
-      // 并未转换到Joint速度指令
-      for (std::size_t i = 0; i < num_joints_; ++i) {
-        cmd_vec.push_back(
-            HWCmdSharedPtr(new Actuator::CmdType(
-                joint_names_[i].actuator_names_[0],
-                joint_velocity_command_[i], Actuator::CmdType::MODE_VEL_
-                )
-            )
-        );
-      }
-      robot_->addCommand(cmd_vec);
+      robot_->executeJointPositions(joint_velocity_command_);
     } else if (position_interface_running_) {
-      // robot_->servoj(joint_position_command_);
+      robot_->executeJointPositions(joint_position_command_);
     } else if (effort_interface_running_) {
-      ; // Nothing to do here
+      LOG(WARNING) << "NO IMPLEMENTES"; // Nothing to do here
     } else {
-      // LOG(WARNING) << "What a fucking command?";
+      ; // Nothing to do here
     }
   }
 

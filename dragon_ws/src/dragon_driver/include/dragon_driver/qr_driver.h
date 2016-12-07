@@ -70,10 +70,37 @@ public:
    */
   void getJointStates(sensor_msgs::JointState&);
 
+  /**
+   * 停止轨迹命令执行
+   */
+  void stopTraj();
+  /**
+   * 执行轨迹命令
+   */
+  bool doTraj(const std::vector<double>& inp_timestamps,
+      const std::vector<std::vector<double>>& inp_positions,
+      const std::vector<std::vector<double>>& inp_velocities);
+  /**
+   * 执行joint position控制过程
+   */
+  void executeJointPositions(const std::vector<double>& positions);
+  /**
+   * 执行joint velocity控制过程
+   */
+  void executeJointVelocities(const std::vector<double>& velocities);
+
 public:
   ~QrDriver();
   // 获取QuadrupedRobotDriver对象实例
   static QrDriver* getInstance();
+
+private:
+  /**
+   * 插值函数， Returns positions of the joints at time 't'
+   */
+  std::vector<double> interp_cubic(double t, double T,
+      const std::vector<double>& p0_pos, const std::vector<double>& p1_pos,
+      const std::vector<double>& p0_vel, const std::vector<double>& p1_vel);
 
 private:
   QrDriver();
@@ -89,6 +116,9 @@ private:
   // 用于保存每一次写入命令的名称列表
   std::vector<std::string> cmd_vec_;
 
+  // 每次电机指令执行的延时(ms)
+  double servoj_time_;
+  bool executing_traj_;
   bool new_command_;
   bool keepalive_;
   bool connected_;

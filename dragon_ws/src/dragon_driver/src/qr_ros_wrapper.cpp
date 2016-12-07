@@ -28,8 +28,7 @@ QrRosWrapper* QrRosWrapper::getInstance() {
 
 QrRosWrapper::QrRosWrapper()
   : alive_(true),
-    as_(nh_,
-      "follow_joint_trajectory",
+    as_(nh_, "follow_joint_trajectory",
       boost::bind(&QrRosWrapper::goalCB, this, _1),
       boost::bind(&QrRosWrapper::cancelCB, this, _1),
       false),
@@ -41,6 +40,10 @@ QrRosWrapper::QrRosWrapper()
     ros_control_thread_(nullptr),
     use_ros_control_(true) {
   google::InitGoogleLogging("qr_driver");
+  // google::SetLogDestination(google::GLOG_INFO, "/path/to/log/INFO_");
+  // google::LogMessage::Init();
+  FLAGS_colorlogtostderr = true;
+  google::FlushLogFiles(google::GLOG_INFO);
   ; // Nothing to do here, all of variables initialize in the method @start()
 }
 
@@ -48,9 +51,11 @@ bool QrRosWrapper::start() {
   bool debug = false;
   ros::param::get("~debug", debug);
   if (debug) {
-    google::FlushLogFiles(-1);
-    google::LogToStderr();
+    google::SetStderrLogging(google::GLOG_INFO);
+  } else {
+    google::SetStderrLogging(google::GLOG_WARNING);
   }
+  
   robot_ = QrDriver::getInstance();
   std::string speci = "../robot.xml";
   if (ros::param::get("~robot_xml", speci)) {
@@ -126,13 +131,131 @@ void QrRosWrapper::halt() {
 void QrRosWrapper::goalCB(
     actionlib::ServerGoalHandle<
         control_msgs::FollowJointTrajectoryAction> gh) {
-  ;
+  std::string buf;
+  LOG(INFO) << "on_goal";
+  actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>::Goal goal
+    = *gh.getGoal(); //make a copy that we can modify
+  if (has_goal_) {
+    LOG(WARNING) << "Received new goal while still executing previous trajectory. "
+        << "Canceling previous trajectory";
+    has_goal_ = false;
+    robot_->stopTraj();
+    result_.error_code = -100; // nothing is defined for this...?
+    result_.error_string = "Received another trajectory";
+    goal_handle_.setAborted(result_, result_.error_string);
+    std::this_thread::sleep_for(std::chrono::milliseconds(250));
+  }
+  goal_handle_ = gh;
+  if (!validateJointNames()) {
+    std::string outp_joint_names = "";
+    for (unsigned int i = 0; i < goal.trajectory.joint_names.size();
+        i++) {
+      outp_joint_names += goal.trajectory.joint_names[i] + " ";
+    }
+    result_.error_code = result_.INVALID_JOINTS;
+    result_.error_string =
+        "Received a goal with incorrect joint names: "
+            + outp_joint_names;
+    gh.setRejected(result_, result_.error_string);
+    LOG(ERROR) << result_.error_string;
+    return;
+  }
+  if (!has_positions()) {
+    result_.error_code = result_.INVALID_GOAL;
+    result_.error_string = "Received a goal without positions";
+    gh.setRejected(result_, result_.error_string);
+    LOG(ERROR) << result_.error_string;
+    return;
+  }
+
+  if (!has_velocities()) {
+    result_.error_code = result_.INVALID_GOAL;
+    result_.error_string = "Received a goal without velocities";
+    gh.setRejected(result_, result_.error_string);
+    LOG(ERROR) << result_.error_string;
+    return;
+  }
+
+  if (!traj_is_finite()) {
+    result_.error_string = "Received a goal with infinities or NaNs";
+    result_.error_code = result_.INVALID_GOAL;
+    gh.setRejected(result_, result_.error_string);
+    LOG(ERROR) << result_.error_string;
+    return;
+  }
+
+  /* TODO 未实现
+  if (!has_limited_velocities()) {
+    result_.error_code = result_.INVALID_GOAL;
+    result_.error_string =
+        "Received a goal with velocities that are higher than "
+            + std::to_string(max_velocity_);
+    gh.setRejected(result_, result_.error_string);
+    LOG(ERROR) << result_.error_string;
+    return;
+  }
+  */
+
+  reorder_traj_joints(goal.trajectory);
+
+  if (!start_positions_match(goal.trajectory, 0.01)) {
+    result_.error_code = result_.INVALID_GOAL;
+    result_.error_string = "Goal start doesn't match current pose";
+    gh.setRejected(result_, result_.error_string);
+    LOG(ERROR) << result_.error_string;
+    return;
+  }
+
+  std::vector<double> timestamps;
+  std::vector<std::vector<double>> positions, velocities;
+  if (goal.trajectory.points[0].time_from_start.toSec() != 0.) {
+    LOG(WARNING) << "Trajectory's first point should be the current position, "
+        << "with time_from_start set to 0.0 - Inserting point in malformed trajectory";
+    timestamps.push_back(0.0);
+    positions.push_back(robot_->getJointPositions());
+    velocities.push_back(robot_->getJointVelocities());
+  }
+  for (unsigned int i = 0; i < goal.trajectory.points.size(); i++) {
+    timestamps.push_back(
+        goal.trajectory.points[i].time_from_start.toSec());
+    positions.push_back(goal.trajectory.points[i].positions);
+    velocities.push_back(goal.trajectory.points[i].velocities);
+
+  }
+
+  goal_handle_.setAccepted();
+  has_goal_ = true;
+  std::thread(&QrRosWrapper::trajThread, this, timestamps, positions,
+      velocities).detach();
+}
+
+void QrRosWrapper::trajThread(std::vector<double> timestamps,
+      std::vector<std::vector<double>> positions,
+      std::vector<std::vector<double>> velocities) {
+  robot_->doTraj(timestamps, positions, velocities);
+  if (has_goal_) {
+    result_.error_code = result_.SUCCESSFUL;
+    goal_handle_.setSucceeded(result_);
+    has_goal_ = false;
+  }
 }
 
 void QrRosWrapper::cancelCB(
     actionlib::ServerGoalHandle<
         control_msgs::FollowJointTrajectoryAction> gh) {
-  ;
+  // set the action state to preempted
+  LOG(INFO) << "on_cancel";
+  if (has_goal_) {
+    if (gh == goal_handle_) {
+      robot_->stopTraj();
+      has_goal_ = false;
+    }
+  }
+  result_.error_code = -100; //nothing is defined for this...?
+  result_.error_string = "Goal cancelled by client";
+  gh.setCanceled(result_);
+
+  LOG(INFO) << result_.error_string;
 }
 
 void QrRosWrapper::publishRTMsg() {
@@ -204,6 +327,8 @@ QrRosWrapper::~QrRosWrapper() {
   if (nullptr != instance_) {
     delete instance_;
   }
+
+  google::ShutdownGoogleLogging();
 }
 
 void QrRosWrapper::cbForDebug(const std_msgs::Int32ConstPtr& msg) {
@@ -233,7 +358,108 @@ void QrRosWrapper::cbForDebug(const std_msgs::Int32ConstPtr& msg) {
     cmd_vec.push_back(cmd);
   }
   robot_->addCommand(cmd_vec);
+}
 
+bool QrRosWrapper::validateJointNames() {
+  std::vector<std::string> actual_joint_names = robot_->getJointNames();
+  actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>::Goal goal =
+      *goal_handle_.getGoal();
+  if (goal.trajectory.joint_names.size() != actual_joint_names.size())
+    return false;
+
+  for (unsigned int i = 0; i < goal.trajectory.joint_names.size(); i++) {
+    unsigned int j;
+    for (j = 0; j < actual_joint_names.size(); j++) {
+      if (goal.trajectory.joint_names[i] == actual_joint_names[j])
+        break;
+    }
+    if (goal.trajectory.joint_names[i] == actual_joint_names[j]) {
+      actual_joint_names.erase(actual_joint_names.begin() + j);
+    } else {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+bool QrRosWrapper::has_velocities() {
+  actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>::Goal goal =
+      *goal_handle_.getGoal();
+  for (unsigned int i = 0; i < goal.trajectory.points.size(); i++) {
+    if (goal.trajectory.points[i].positions.size()
+        != goal.trajectory.points[i].velocities.size())
+      return false;
+  }
+  return true;
+}
+
+bool QrRosWrapper::has_positions() {
+  actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>::Goal goal =
+      *goal_handle_.getGoal();
+  if (goal.trajectory.points.size() == 0)
+    return false;
+  for (unsigned int i = 0; i < goal.trajectory.points.size(); i++) {
+    if (goal.trajectory.points[i].positions.size()
+        != goal.trajectory.joint_names.size())
+      return false;
+  }
+  return true;
+}
+
+bool QrRosWrapper::traj_is_finite() {
+  actionlib::ActionServer<control_msgs::FollowJointTrajectoryAction>::Goal goal =
+      *goal_handle_.getGoal();
+  for (unsigned int i = 0; i < goal.trajectory.points.size(); i++) {
+    for (unsigned int j = 0;
+        j < goal.trajectory.points[i].velocities.size(); j++) {
+      if (!std::isfinite(goal.trajectory.points[i].positions[j]))
+        return false;
+      if (!std::isfinite(goal.trajectory.points[i].velocities[j]))
+        return false;
+    }
+  }
+  return true;
+}
+
+void QrRosWrapper::reorder_traj_joints(trajectory_msgs::JointTrajectory& traj) {
+  /* Reorders trajectory - destructive */
+  std::vector<std::string> actual_joint_names = robot_->getJointNames();
+  std::vector<unsigned int> mapping;
+  mapping.resize(actual_joint_names.size(), actual_joint_names.size());
+  for (unsigned int i = 0; i < traj.joint_names.size(); i++) {
+    for (unsigned int j = 0; j < actual_joint_names.size(); j++) {
+      if (traj.joint_names[i] == actual_joint_names[j])
+        mapping[j] = i;
+    }
+  }
+  traj.joint_names = actual_joint_names;
+  std::vector<trajectory_msgs::JointTrajectoryPoint> new_traj;
+  for (unsigned int i = 0; i < traj.points.size(); i++) {
+    trajectory_msgs::JointTrajectoryPoint new_point;
+    for (unsigned int j = 0; j < traj.points[i].positions.size(); j++) {
+      new_point.positions.push_back(
+          traj.points[i].positions[mapping[j]]);
+      new_point.velocities.push_back(
+          traj.points[i].velocities[mapping[j]]);
+      if (traj.points[i].accelerations.size() != 0)
+        new_point.accelerations.push_back(
+            traj.points[i].accelerations[mapping[j]]);
+    }
+    new_point.time_from_start = traj.points[i].time_from_start;
+    new_traj.push_back(new_point);
+  }
+  traj.points = new_traj;
+}
+
+bool QrRosWrapper::start_positions_match(const trajectory_msgs::JointTrajectory &traj, double eps) {
+  for (size_t i = 0; i < traj.points[0].positions.size(); i++) {
+    std::vector<double> qActual = robot_->getJointPositions();
+    if( fabs(traj.points[0].positions[i] - qActual[i]) > eps ) {
+      return false;
+    }
+  }
+  return true;
 }
 
 } /* namespace qr_driver */
