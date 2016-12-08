@@ -19,7 +19,7 @@ from gps.algorithm.traj_opt.traj_opt_pi2 import TrajOptPi2
 from gps.algorithm.policy.lin_gauss_init import init_pd
 from gps.proto.gps_pb2 import JOINT_ANGLES, JOINT_VELOCITIES, \
         END_EFFECTOR_POINTS, END_EFFECTOR_POINT_VELOCITIES, ACTION, \
-        TRIAL_ARM, AUXILIARY_ARM, JOINT_SPACE
+        TRIAL_ARM, AUXILIARY_ARM, JOINT_SPACE, TOOL_JOINT_ANGLES, TOOL_JOINT_VELOCITYIES
 from gps.utility.general_utils import get_ee_points
 from gps.gui.config import generate_experiment_info
 
@@ -31,6 +31,8 @@ SENSOR_DIMS = {
     JOINT_VELOCITIES: 2,
     END_EFFECTOR_POINTS: 3 * EE_POINTS.shape[0],
     END_EFFECTOR_POINT_VELOCITIES: 3 * EE_POINTS.shape[0],
+    TOOL_JOINT_ANGLES: 1,
+    TOOL_JOINT_VELOCITYIES: 1,
     ACTION: 2
 }
 
@@ -65,7 +67,7 @@ for i in xrange(common['conditions']):
     )
     """
     ja_x0 = np.array([[-0.6283300215244454, 0.9056654473615646]])
-    ee_pos_x0 = np.array([[0.0207, 0, 0]])
+    ee_pos_x0 = np.array([[0.079444, 0, 0.0098802]])
     ee_rot_x0 = np.array([[[0.83372763, -0.54771745, 0.07002733],\
         [-0.54459356, -0.83658433, -0.05953581],\
         [0.09119257, 0.01150022, -0.99576687]]])
@@ -107,7 +109,7 @@ agent = {
     'type': AgentROS,
     'dt': 0.05,
     'conditions': common['conditions'],
-    'T': 100,
+    'T': 50,
     'x0': x0s,
     'ee_points_tgt': ee_tgts,
     'reset_conditions': reset_conditions,
@@ -115,7 +117,7 @@ agent = {
     'state_include': [JOINT_ANGLES, JOINT_VELOCITIES, END_EFFECTOR_POINTS,
                       END_EFFECTOR_POINT_VELOCITIES],
     'end_effector_points': EE_POINTS,
-    'obs_include': [],
+    'obs_include': [TOOL_JOINT_ANGLES, TOOL_JOINT_VELOCITYIES],
 }
 
 if not os.path.exists(common['data_files_dir']):

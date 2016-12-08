@@ -1,6 +1,6 @@
 PROTO_SRC_DIR=proto
 DST_DIR=build
-AGENT_DIR=/home/silence/AboutRL/dragon_ws/src/dragon_agent
+AGENT_DIR=/home/silence/dragon_rl/dragon_ws/src/dragon_agent
 # Hack to compile directly into src folders for now
 CPP_OUT_DIR=$AGENT_DIR/include/gps/proto
 PROTO_BUILD_DIR=$DST_DIR/$PROTO_SRC_DIR

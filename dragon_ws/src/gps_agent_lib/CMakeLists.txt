@@ -200,6 +200,8 @@ add_library(pr2_gps_agent
 target_link_libraries(gps_agent_lib
   ${catkin_LIBRARIES}
   ${Eigen_LIBRARIES}
+  ${orocos_kdl_LIBRARIES}
+  ${kdl_parser_LIBRARIES}
 )
 target_link_libraries(pr2_gps_agent
   ${catkin_LIBRARIES}

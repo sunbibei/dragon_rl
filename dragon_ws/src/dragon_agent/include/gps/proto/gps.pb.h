@@ -56,11 +56,13 @@ enum SampleType {
   IMAGE_FEAT = 16,
   END_EFFECTOR_POINTS_NO_TARGET = 17,
   END_EFFECTOR_POINT_VELOCITIES_NO_TARGET = 18,
-  TOTAL_DATA_TYPES = 19
+  TOTAL_DATA_TYPES = 19,
+  TOOL_JOINT_ANGLES = 20,
+  TOOL_JOINT_VELOCITYIES = 21
 };
 bool SampleType_IsValid(int value);
 const SampleType SampleType_MIN = ACTION;
-const SampleType SampleType_MAX = TOTAL_DATA_TYPES;
+const SampleType SampleType_MAX = TOOL_JOINT_VELOCITYIES;
 const int SampleType_ARRAYSIZE = SampleType_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* SampleType_descriptor();

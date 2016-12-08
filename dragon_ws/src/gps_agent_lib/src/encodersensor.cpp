@@ -262,7 +262,7 @@ void EncoderSensor::set_sample_data(boost::scoped_ptr<Sample>& sample, int t)
     sample->set_data_vector(t,gps::JOINT_VELOCITIES,previous_velocities_.data(),previous_velocities_.size(),SampleDataFormatEigenVector);
 
     // Set end effector point.
-    sample->set_data_vector(t,gps::END_EFFECTOR_POINTS,previous_actual_end_effector_points_.data(),previous_actual_end_effector_points_.cols()*previous_actual_end_effector_points_.rows(),SampleDataFormatEigenVector);
+    sample->set_data_vector(t,gps::END_EFFECTOR_POINTS,previous_end_effector_points_.data(),previous_end_effector_points_.cols()*previous_end_effector_points_.rows(),SampleDataFormatEigenVector);
 
     // Set end effector point velocities.
     sample->set_data_vector(t,gps::END_EFFECTOR_POINT_VELOCITIES,previous_end_effector_point_velocities_.data(),previous_end_effector_point_velocities_.cols()*previous_end_effector_point_velocities_.rows(),SampleDataFormatEigenVector);
