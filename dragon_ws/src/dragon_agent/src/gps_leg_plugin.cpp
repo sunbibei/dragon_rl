@@ -13,6 +13,8 @@
 #include <kdl_parser/kdl_parser.hpp>
 #include <gps_agent_lib/positioncontroller.h>
 
+#include <string>
+/*
 template <typename T>
 std::string to_string(T value) {
     //create an output string stream
@@ -22,6 +24,7 @@ std::string to_string(T value) {
     //convert the string stream into a string and return
     return os.str() ;
 }
+*/
 
 namespace dragon_agent {
 
@@ -101,7 +104,7 @@ bool GPSLegPlugin::initialize_joint(ros::NodeHandle& nh) {
   while (true) {
     // Check if the parameter for this active joint exists.
     std::string joint_name;
-    std::string param_name = std::string("/joint_name_" + to_string(joint_index));
+    std::string param_name = std::string("/joint_name_" + std::to_string(joint_index));
     if(!nh.getParam(param_name.c_str(), joint_name))
         break;
     // Push back the joint state and name.
@@ -112,8 +115,8 @@ bool GPSLegPlugin::initialize_joint(ros::NodeHandle& nh) {
   }
 
   // Validate that the number of joints in the chain equals the length of the active arm joint state.
-  ROS_INFO_STREAM("num_fk_chain: " + to_string(active_arm_fk_chain_.getNrOfJoints()));
-  ROS_INFO_STREAM("num_joint_state: " + to_string(joint_handles_.size()));
+  ROS_INFO_STREAM("num_fk_chain: " + std::to_string(active_arm_fk_chain_.getNrOfJoints()));
+  ROS_INFO_STREAM("num_joint_state: " + std::to_string(joint_handles_.size()));
   if (active_arm_fk_chain_.getNrOfJoints() != joint_handles_.size()) {
       ROS_ERROR("Number of joints in the active arm FK chain does not match the number of joints in the active arm joint state!");
       return false;
