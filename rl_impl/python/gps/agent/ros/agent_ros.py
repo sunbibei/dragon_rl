@@ -191,8 +191,8 @@ class AgentROS(Agent):
             sample = msg_to_sample(sample_msg, self)
             if save:
                 self._samples[condition].append(sample)
-        from gps.proto.gps_pb2 import END_EFFECTOR_POINTS
-        #print sample.get(END_EFFECTOR_POINTS)
+        #from gps.proto.gps_pb2 import TOOL_JOINT_ANGLES
+        #print sample.get(TOOL_JOINT_ANGLES)
         return sample
 
     def run_trial_tf(self, policy, time_to_run=5):

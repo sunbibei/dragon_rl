@@ -27,6 +27,9 @@ Joint encoder sensor: returns joint angles and, optionally, their velocities.
 // EndEffectorPosition
 // EndEffectorRotation
 // EndEffectorJacobian
+// Silence: ADD
+// TOOL_JOINT_ANGLES
+// TOOL_JOINT_VELOCITYIES
 
 namespace gps_control
 {
@@ -40,6 +43,14 @@ private:
     Eigen::VectorXd previous_velocities_;
     // Temporary storage for joint angles.
     Eigen::VectorXd temp_joint_angles_;
+
+    // [Silence : ADD] Previous the tool joint angles.
+    Eigen::VectorXd previous_tool_angles_;
+    // [Silence : ADD] Previous the tool joint velocities.
+    Eigen::VectorXd previous_tool_velocities_;
+    // [Silence : ADD] Temporary storage for tool joint angles.
+    Eigen::VectorXd temp_tool_joint_angles_;
+
     // Temporary storage for KDL joint angle array.
     KDL::JntArray temp_joint_array_;
     // Temporary storage for KDL tip pose.
@@ -57,13 +68,11 @@ private:
 
     boost::scoped_ptr<EncoderFilter> joint_filter_;
 
+    // [Silence : ADD]
+    boost::scoped_ptr<EncoderFilter> tool_joint_filter_;
+
     // End-effector points in the space of the end-effector.
     Eigen::MatrixXd end_effector_points_;
-
-    // Silence: Previous end-effector points.
-    Eigen::MatrixXd previous_actual_end_effector_points_;
-    // Silence: Temporary storage for tool joint angles.
-    Eigen::VectorXd temp_tool_joint_angles_;
 
     // Previous end-effector points.
     Eigen::MatrixXd previous_end_effector_points_;

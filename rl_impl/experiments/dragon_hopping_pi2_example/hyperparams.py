@@ -72,7 +72,7 @@ for i in xrange(common['conditions']):
         [-0.54459356, -0.83658433, -0.05953581],\
         [0.09119257, 0.01150022, -0.99576687]]])
     ja_aux = np.array([0., 0.])
-    ee_pos_tgt = np.array([[0.0207, 0, 0]])
+    ee_pos_tgt = np.array([[0.079444, 0, 0.0098802]])
     ee_rot_tgt = np.array([[[0.64001542, -0.2471554, 0.72752626],\
         [-0.6068464, 0.41818058, 0.67591601],\
         [-0.47129365, -0.87409336, 0.11765665]]])
@@ -168,7 +168,7 @@ fk_cost = {
     'type': CostDZ,
     # Target end effector is subtracted out of EE_POINTS in ROS so goal
     # is 0.
-    'target_end_effector': np.zeros(EE_POINTS.shape[0]),
+    'target_end_effector': np.zeros(3 * EE_POINTS.shape[0]),
     'wp': np.ones(SENSOR_DIMS[END_EFFECTOR_POINTS]),
     'alpha': 0.5,
     'ramp_option': RAMP_CONSTANT,
@@ -190,7 +190,7 @@ algorithm['traj_opt'] = {
 algorithm['policy_opt'] = {}
 
 config = {
-    'iterations': 20,
+    'iterations': 40,
     'num_samples': 5,
     'common': common,
     'verbose_trials': 0,

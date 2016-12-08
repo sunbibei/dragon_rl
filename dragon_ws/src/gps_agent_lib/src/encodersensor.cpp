@@ -18,6 +18,15 @@ EncoderSensor::EncoderSensor(ros::NodeHandle& n, RobotPlugin *plugin, gps::Actua
     // Initialize temporary angles.
     temp_joint_angles_.resize(previous_angles_.size());
 
+    // [Silence : ADD] Get current tool joint angles
+    plugin->get_tool_joint_encoder_readings(previous_tool_angles_, actuator_type);
+
+    // [Silence : ADD] Initialize velocities.
+    previous_tool_velocities_.resize(previous_tool_angles_.size());
+
+    // [Silence : ADD] Initialize temporary angles.
+    temp_tool_joint_angles_.resize(previous_tool_angles_.size());
+
     // Resize KDL joint array.
     temp_joint_array_.resize(previous_angles_.size());
 
@@ -27,10 +36,6 @@ EncoderSensor::EncoderSensor(ros::NodeHandle& n, RobotPlugin *plugin, gps::Actua
 
     // Allocate space for end effector points
     n_points_ = 1;
-
-    // Silence: Init
-    temp_tool_joint_angles_.resize(1);
-    previous_actual_end_effector_points_.resize(3,1);
 
     previous_end_effector_points_.resize(3,1);
     previous_end_effector_point_velocities_.resize(3,1);
@@ -44,12 +49,14 @@ EncoderSensor::EncoderSensor(ros::NodeHandle& n, RobotPlugin *plugin, gps::Actua
     point_jacobians_.resize(3, previous_angles_.size());
     point_jacobians_rot_.resize(3, previous_angles_.size());
 
-
     // Set time.
     previous_angles_time_ = ros::Time(0.0); // This ignores the velocities on the first step.
 
     // Initialize and configure Kalman filter
     joint_filter_.reset(new EncoderFilter(n, previous_angles_));
+
+    // [Silence : ADD] Initialize and configure Kalman filter
+    tool_joint_filter_.reset(new EncoderFilter(n, previous_tool_angles_));
 }
 
 // Destructor.
@@ -67,13 +74,19 @@ void EncoderSensor::update(RobotPlugin *plugin, ros::Time current_time, bool is_
     plugin->get_joint_encoder_readings(temp_joint_angles_, actuator_type_);
     joint_filter_->update(update_time, temp_joint_angles_);
 
+    // [Silence : ADD] Get new vector of joint angles from plugin.
+    plugin->get_tool_joint_encoder_readings(temp_tool_joint_angles_, actuator_type_);
+    tool_joint_filter_->update(update_time, temp_tool_joint_angles_);
+
     if (is_controller_step)
     {
         // Get filtered joint angles
         joint_filter_->get_state(temp_joint_angles_);
+        // [Silence : ADD] Get filtered joint angles
+        tool_joint_filter_->get_state(temp_tool_joint_angles_);
 
         // Get FK solvers from plugin.
-        plugin->get_fk_solver(fk_solver_,jac_solver_, actuator_type_);
+        plugin->get_fk_solver(fk_solver_, jac_solver_, actuator_type_);
 
         // Compute end effector position, rotation, and Jacobian.
         // Save angles in KDL joint array.
@@ -143,6 +156,10 @@ void EncoderSensor::update(RobotPlugin *plugin, ros::Time current_time, bool is_
                 for (unsigned i = 0; i < previous_velocities_.size(); i++){
                     previous_velocities_[i] = (temp_joint_angles_[i] - previous_angles_[i])/sensor_step_length_;
                 }
+                // [Silence : ADD]
+                for (unsigned i = 0; i < previous_tool_velocities_.size(); i++){
+                    previous_tool_velocities_[i] = (temp_tool_joint_angles_[i] - previous_tool_angles_[i])/sensor_step_length_;
+                }
             }
             else
             {
@@ -150,23 +167,22 @@ void EncoderSensor::update(RobotPlugin *plugin, ros::Time current_time, bool is_
                 for (unsigned i = 0; i < previous_velocities_.size(); i++){
                     previous_velocities_[i] = (temp_joint_angles_[i] - previous_angles_[i])/update_time;
                 }
+                // [Silence : ADD]
+                for (unsigned i = 0; i < previous_tool_velocities_.size(); i++){
+                    previous_tool_velocities_[i] = (temp_tool_joint_angles_[i] - previous_tool_angles_[i])/update_time;
+                }
             }
         }
 
         // Move temporaries into the previous joint angles.
         previous_end_effector_points_ = temp_end_effector_points_;
 
-        // Silence: modify the end effector position.
-        previous_actual_end_effector_points_ = previous_end_effector_points_;
-        plugin->get_tool_joint_encoder_readings(temp_tool_joint_angles_, actuator_type_);
-        if ((0 != temp_tool_joint_angles_.cols()) && (0 != temp_tool_joint_angles_.rows())) {
-            for (unsigned i = 0; i < previous_angles_.cols(); i++){
-                previous_actual_end_effector_points_(2, i) -= temp_tool_joint_angles_[0];
-            }
-        }
-
         for (unsigned i = 0; i < previous_angles_.size(); i++){
             previous_angles_[i] = temp_joint_angles_[i];
+        }
+        // [Silence : ADD]
+        for (unsigned i = 0; i < previous_tool_angles_.size(); i++){
+            previous_tool_angles_[i] = temp_tool_joint_angles_[i];
         }
 
         // Update stored time.
@@ -203,7 +219,6 @@ void EncoderSensor::configure_sensor(OptionsMap &options)
                   n_points_target_, n_points_);
     }
 
-    previous_actual_end_effector_points_.resize(3, n_points_);
     previous_end_effector_points_.resize(3, n_points_);
     previous_end_effector_point_velocities_.resize(3, n_points_);
     temp_end_effector_points_.resize(3, n_points_);
@@ -221,7 +236,7 @@ void EncoderSensor::set_sample_data_format(boost::scoped_ptr<Sample>& sample)
 
     // Set joint velocities size and format.
     OptionsMap velocities_metadata;
-    sample->set_meta_data(gps::JOINT_VELOCITIES,previous_velocities_.size(),SampleDataFormatEigenVector,joints_metadata);
+    sample->set_meta_data(gps::JOINT_VELOCITIES,previous_velocities_.size(),SampleDataFormatEigenVector,velocities_metadata);
 
     // Set end effector point size and format.
     OptionsMap eep_metadata;
@@ -250,6 +265,14 @@ void EncoderSensor::set_sample_data_format(boost::scoped_ptr<Sample>& sample)
     // Set jacobian size and format.
     OptionsMap eejac_metadata;
     sample->set_meta_data(gps::END_EFFECTOR_JACOBIANS,previous_jacobian_.rows(),previous_jacobian_.cols(),SampleDataFormatEigenMatrix,eejac_metadata);
+    
+    // [Silence : ADD] Set tool joint angles size and format.
+    OptionsMap tool_joints_metadata;
+    sample->set_meta_data(gps::TOOL_JOINT_ANGLES,previous_tool_angles_.size(),SampleDataFormatEigenVector, tool_joints_metadata);
+
+    // [Silence : ADD] Set tool joint velocities size and format.
+    OptionsMap tool_velocities_metadata;
+    sample->set_meta_data(gps::TOOL_JOINT_VELOCITYIES,previous_tool_velocities_.size(),SampleDataFormatEigenVector, tool_velocities_metadata);
 }
 
 // Set data on the provided sample.
@@ -281,4 +304,11 @@ void EncoderSensor::set_sample_data(boost::scoped_ptr<Sample>& sample, int t)
 
     // Set end effector jacobian.
     sample->set_data_vector(t,gps::END_EFFECTOR_JACOBIANS,previous_jacobian_.data(),previous_jacobian_.rows(),previous_jacobian_.cols(),SampleDataFormatEigenMatrix);
+
+    // [Silence : ADD] Set joint angles.
+    sample->set_data_vector(t,gps::TOOL_JOINT_ANGLES,previous_tool_angles_.data(),previous_tool_angles_.size(),SampleDataFormatEigenVector);
+
+    // [Silence : ADD] Set joint velocities.
+    sample->set_data_vector(t,gps::TOOL_JOINT_VELOCITYIES,previous_tool_velocities_.data(),previous_tool_velocities_.size(),SampleDataFormatEigenVector);
+
 }
