@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<robot name="single_leg" xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+  <!-- common stuff -->
+  <xacro:include filename="$(find dragon_description)/urdf/common.gazebo.xacro" />
+
+  <!-- single leg XACRO -->
+  <xacro:include filename="$(find dragon_description)/urdf/leg.urdf.xacro" />
+
+  <xacro:link_template name="base_link">
+    <sphere radius="0.0001"/>
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0.0001"/>
+      <inertia ixx="0" ixy="0.0" ixz="0.0" iyy="0" iyz="0.0" izz="0"/>
+    </inertial>
+  </xacro:link_template>
+
+  <!-- The joint between the base of single leg and the world -->
+  <joint name="base_link_to_base_joint" type="prismatic">
+    <parent link="base_link" />
+    <child link = "leg_base" />
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+    <limit lower="-0.1" upper="2.0" effort="100" velocity="100"/>
+    <axis xyz="0 0 1" />
+  </joint>
+
+  <!-- Only support obtain the joint state, The joint conn't be handled! -->
+  <transmission name="base_link_to_base_joint_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="base_link_to_base_joint">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="base_link_to_base_joint_motor">
+      <mechanicalReduction>0</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+</robot>

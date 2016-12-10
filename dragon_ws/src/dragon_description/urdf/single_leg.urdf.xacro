@@ -7,14 +7,7 @@
   <!-- single leg XACRO -->
   <xacro:include filename="$(find dragon_description)/urdf/leg.urdf.xacro" />
 
-  <link name="world" />
-
-  <joint name="world_to_base_link_joint" type="fixed" >
-    <parent link="world" />
-    <child link="base_link" />
-  </joint>
-
-  <xacro:link_template name="base_link">
+  <!--xacro:link_template name="base_link">
     <sphere radius="0.0001"/>
     <origin xyz="0 0 0" rpy="0 0 0" />
     <inertial>
@@ -22,29 +15,71 @@
       <mass value="0.0001"/>
       <inertia ixx="0" ixy="0.0" ixz="0.0" iyy="0" iyz="0.0" izz="0"/>
     </inertial>
-  </xacro:link_template>
+  </xacro:link_template-->
 
-  <!-- The joint between the base of single leg and the world -->
-  <joint name="base_link_to_base_joint" type="prismatic">
-    <parent link="base_link" />
-    <child link = "leg_base" />
-    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
-    <limit lower="-0.1" upper="2.0" effort="100" velocity="100"/>
+  <link name="world" />
+
+  <joint name="y_axis_joint" type="fixed">
+    <parent link="world" />
+    <child link="framework" />
+    <origin xyz="0.0 0.0 0" rpy="0.0 0.0 0.0" />
+  </joint>
+
+  <xacro:link_stl_template name="framework" stl="main1n">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="10" />
+      <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+    </inertial>
+  </xacro:link_stl_template>
+
+  <!--xacro:link_template name="y_axis">
+    <box size="0.01 0.02 5"/>
+    <origin xyz="0 -0.04 0" rpy="0 ${pi/2} 0" />
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0"/>
+      <inertia ixx="0" ixy="0.0" ixz="0.0" iyy="0" iyz="0.0" izz="0"/>
+    </inertial>
+  </xacro:link_template-->
+
+  <joint name="z_axis_joint" type="prismatic">
+    <parent link="framework" />
+    <child link="z_axis" />
+    <origin xyz="0.0 0.0 0.2" rpy="0.0 0.0 0.0" />
+    <limit lower="-0.9" upper="0.9" effort="100" velocity="10"/>
+    <axis xyz="1 0 0" />
+  </joint>
+
+  <xacro:link_stl_template name="z_axis" stl="main2n">
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="0.0001" />
+      <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/>
+    </inertial>
+  </xacro:link_stl_template>
+
+  <!--xacro:link_template name="z_axis">
+    <box size="0.01 0.02 3"/>
+    <origin xyz="0.1 -0.03 1.2" rpy="0 0 ${pi/2}" />
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0.0001"/>
+      <inertia ixx="0" ixy="0.0" ixz="0.0" iyy="0" iyz="0.0" izz="0"/>
+    </inertial>
+  </xacro:link_template-->
+
+  <joint name="axis_to_base_joint" type="prismatic">
+    <parent link="z_axis" />
+    <child link="leg_base" />
+    <origin xyz="0 0.06 0.5" rpy="0.0 0.0 0.0" />
+    <limit lower="-0.2" upper="0.4" effort="100" velocity="10"/>
     <axis xyz="0 0 1" />
   </joint>
 
-  <!-- Only support obtain the joint state, The joint conn't be handled! -->
-  <transmission name="base_link_to_base_joint_trans">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="base_link_to_base_joint">
-      <hardwareInterface>EffortJointInterface</hardwareInterface>
-    </joint>
-    <actuator name="base_link_to_base_joint_motor">
-      <mechanicalReduction>0</mechanicalReduction>
-    </actuator>
-  </transmission>
-
-	<!-- single leg -->
+  <!-- single leg -->
   <xacro:leg prefix=""/>
 
 </robot>
