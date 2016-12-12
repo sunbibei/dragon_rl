@@ -63,8 +63,8 @@ class CostDZ(Cost):
 
         ell = alpha * delta_x - (1 - alpha) * np.abs(high)
         
-        print "cost value: ", ell
+        # print "cost value: ", ell
         l = np.zeros(T)
-        l[T-1] = -np.abs(delta_z)
+        l[T-1] = -10*np.abs(delta_z)
         
         return l, lx, lu, lxx, luu, lux

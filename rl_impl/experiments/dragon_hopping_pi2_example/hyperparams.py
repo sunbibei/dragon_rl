@@ -109,7 +109,7 @@ agent = {
     'type': AgentROS,
     'dt': 0.05,
     'conditions': common['conditions'],
-    'T': 50,
+    'T': 100,
     'x0': x0s,
     'ee_points_tgt': ee_tgts,
     'reset_conditions': reset_conditions,
@@ -190,8 +190,8 @@ algorithm['traj_opt'] = {
 algorithm['policy_opt'] = {}
 
 config = {
-    'iterations': 40,
-    'num_samples': 5,
+    'iterations': 100000,
+    'num_samples': 20,
     'common': common,
     'verbose_trials': 0,
     'agent': agent,
