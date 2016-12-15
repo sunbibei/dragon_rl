@@ -91,7 +91,7 @@
   </transmission-->
 
   <!-- Only support obtain the joint state, The joint conn't be handled! -->
-  <!--transmission name="axis_to_base_joint_trans">
+  <transmission name="axis_to_base_joint_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="axis_to_base_joint">
       <hardwareInterface>EffortJointInterface</hardwareInterface>
@@ -99,7 +99,7 @@
     <actuator name="axis_to_base_joint_motor">
       <mechanicalReduction>0</mechanicalReduction>
     </actuator>
-  </transmission-->
+  </transmission>
 
   <!-- single leg -->
   <xacro:leg prefix="" />
